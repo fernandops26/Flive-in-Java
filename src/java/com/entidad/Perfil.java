@@ -17,8 +17,6 @@ public class Perfil implements Serializable{
     private int codPerfil;
     private String nombrePer;
     private String apellidosPer;
-    private String dniPer;
-    private int celularPer;
     private String imagenPer;
     private Date f_creacionPer;
     private Provincia objProvincia;
@@ -69,21 +67,7 @@ public class Perfil implements Serializable{
         this.apellidosPer = apellidosPer;
     }
 
-    public String getDniPer() {
-        return dniPer;
-    }
-
-    public void setDniPer(String dniPer) {
-        this.dniPer = dniPer;
-    }
-
-    public int getCelularPer() {
-        return celularPer;
-    }
-
-    public void setCelularPer(int celularPer) {
-        this.celularPer = celularPer;
-    }
+   
 
     public String getImagenPer() {
         return imagenPer;

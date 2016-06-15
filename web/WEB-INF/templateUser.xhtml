@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="..//resources/css/materialize.css"></link>
+        <f:event type="preRenderView" listener="#{cUsuario.esAutenticado()}"/>
+        <ui:insert name="cabecera">
+            
+        </ui:insert>
+    </h:head>
+    <h:body>
+        
+        <div class="menu blue">
+            <div class="menu__logo">
+                <a href="#" class="menu__titulo">Flive</a>
+            </div>
+            <div class="menu__busqueda">
+                <div class="busqueda">
+                    <input id="busqueda" type="text" class="busqueda__input"/>
+                    <label for="busqueda" class="busqueda__icono">
+                        <i class="material-icons ">search</i>
+                    </label>
+                    
+                </div>
+            </div>
+            <div class="menu__avatar">
+                <div class="notificacion" id="notificacion">
+                    <i class="material-icons notificacion__icono">alarm</i>
+                    <span class="notificacion__numero">
+                        4
+                    </span>
+                    <ul class="notificacion__lista" id="notificacion__lista">
+                        <span class="notificacion__titulo">Notificaciones</span>
+                        <li class="notificacion__item">
+                            <a class="notificacion__link" href="#">
+                                <span class="notificacion__usuario">Usuario uno</span>
+                                <p class="notificacion__texto">Le dio click a tu flive</p>
+                                <span class="notificacion__tiempo">Hace 2 minutos</span>
+                            </a>
+                        </li>
+                        <li class="notificacion__item">
+                            <a class="notificacion__link" href="#">
+                                <span class="notificacion__usuario">Usuario juan</span>
+                                <p class="notificacion__texto">Te esta siguiento</p>
+                                <span class="notificacion__tiempo">Hace 20 minutos</span>
+                            </a>
+                        </li>
+                        <li class="notificacion__item">
+                            <a class="notificacion__link" href="#">
+                                <span class="notificacion__usuario">Usuario esteban</span>
+                                <p class="notificacion__texto">compartio tu foto</p>
+                                <span class="notificacion__tiempo">Hace 1 hora</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="perfil" id="perfil">
+                    <img src="../resources/img/f.jpg" alt="" class="perfil__img" id="perfil__img"/>
+                        <div class="opciones" id="opciones__perfil">
+                            <h:form>
+                            <li class="opciones__item"><a href="" class="opciones__link">Mi Perfil</a></li>
+                            <li class="opciones__item"><a href="" class="opciones__link">Configuración</a></li>
+                            <li class="opciones__item"><a href="" class="opciones__link">Mis album´s</a></li>
+                            <li class="opciones__item">
+                                <h:commandLink actionListener="#{cUsuario.cerrarSesion()}" class="opciones__link" value="Salir"/>
+                            </li>
+                            </h:form>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+      
+        <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+            <a class="btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-tooltip="Nueva publicación"><i class="material-icons">add</i></a>
+          </div>
+        
+        <ui:insert name="contenido">
+            
+        </ui:insert>
+        
+        <script type="text/javascript" src="../resources/js/jquery.js"></script>
+        <script type="text/javascript" src="../resources/js/materialize.js"></script>
+        <script type="text/javascript" src="../resources/js/usuario.js"></script>        
+    </h:body>
+</html>
+

@@ -18,7 +18,7 @@ public class Usuario implements Serializable{
     private Perfil objPerfil;
     
     public Usuario(){
-        
+        this.objPerfil=new Perfil();
     }
 
     public Perfil getObjPerfil() {
