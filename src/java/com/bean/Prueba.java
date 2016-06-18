@@ -7,6 +7,7 @@ package com.bean;
 
 import com.entidad.Perfil;
 import com.entidad.Usuario;
+import com.util.GeneradorNumeros;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,8 +36,10 @@ public static void ZonaLogicaL(){
 }
 
 public static void main(String[] args) {
-  Prueba.ZonaLogicaR();
+//  Prueba.ZonaLogicaR();
 //    Prueba.ZonaLogicaL();
+
+    System.out.println(new GeneradorNumeros().generar(String.valueOf(1)));
 }
  
 }

@@ -59,10 +59,10 @@
                     </ul>
                 </div>
                 <div class="perfil" id="perfil">
-                    <img src="../resources/img/f.jpg" alt="" class="perfil__img" id="perfil__img"/>
+                    <img  src="../upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}" alt="" class="perfil__img" id="perfil__img" style="min-height: 30px"/>
                         <div class="opciones" id="opciones__perfil">
                             <h:form>
-                            <li class="opciones__item"><a href="" class="opciones__link">Mi Perfil</a></li>
+                            <li class="opciones__item"><a href="/Flive/user/perfil.xhtml" class="opciones__link">Mi Perfil</a></li>
                             <li class="opciones__item"><a href="" class="opciones__link">Configuración</a></li>
                             <li class="opciones__item"><a href="" class="opciones__link">Mis album´s</a></li>
                             <li class="opciones__item">
@@ -76,15 +76,93 @@
         
       
         <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-tooltip="Nueva publicación"><i class="material-icons">add</i></a>
+            <a data-target="modal1" class="btn-floating btn-large waves-effect waves-light red tooltipped modal-trigger" data-position="left" data-tooltip="Nueva publicación"><i class="material-icons">add</i></a>
           </div>
-        
         <ui:insert name="contenido">
             
         </ui:insert>
         
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal modal-fixed-footer">
+             <h:form id="formulario" enctype="multipart/form-data" >
+                 <p:growl id="grow3" showDetail="true" life="3000" />  
+                 <div class="modal-content">
+                    <h4>Nueva publicación</h4>
+                    <p>Comparte tu nueva idea!</p>
+                    <div class="row">
+                        <div class="col s12">
+                                <div class="row">
+                                    <div class="col s12 input-field ">
+                                       <h:inputText value="#{cPublicacion.objNPublicacion.tituloPub}" id="titulo" class="validate" required="true"/>
+                                        
+                                        <label for="titulo">Titulo</label>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                        
+                
+                    <div class="row">
+                        
+                        <div class="file-field input-field">
+                            <div class="btn ">
+                            <span>Buscar</span>
+                            <p:fileUpload 
+                                value="#{cPublicacion.archivo}"
+                                          mode="simple" 
+                                          required="true"
+                                          sizeLimit="500000"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                          </div>
+                          <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Sube tu imagen por aquí"/>
+                        </div>
+                    </div>
+                        
+                           
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col s12 input-field ">
+                                <h:selectOneMenu id="album" required="true"  value="#{cPublicacion.objNPublicacion.objAlbum.codAlbum}">
+                                <f:selectItem  itemValue=""  itemLabel="Selecciona un Album"/>
+                                <f:selectItems value="#{cPublicacion.doCargarAlbumSinDetalle()}" 
+                                               var="cb" itemLabel="#{cb.nombreAlb}" 
+                                               itemValue="#{cb.codAlbum}" />
+                             </h:selectOneMenu>
+                             <label for="album">Album</label>
+                            </div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col s12">
+                                    <div class="row">
+                                        <div class="col s12 input-field ">
+                                            <input   id="cajaTags"  onchange="pasarTagsInput()" type="text" class="validate" data-role="materialtags" required="true"  />
+                                            <label for="cajaTags">Tags</label>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    <p:inputText type="hidden" id="tagsConcatenados" value="#{cPublicacion.objNPublicacion.tagsPublicacion}"/>
+                    
+                    
+                  </div>
+                  <div class="modal-footer">
+                      <h:commandButton type="submit"  value="Publicar" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"  actionListener="#{cPublicacion.publicarPost()}">
+                                <f:ajax execute="@form" render="grow3" />
+                    </h:commandButton>
+                      
+                      <h:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat" value="Regresar" actionListener="#{cPublicacion.retaurarPublicacion()}" >
+                       <f:ajax execute="@form"  />
+                      </h:commandLink>
+                  </div>
+             </h:form>
+         </div>
+        
         <script type="text/javascript" src="../resources/js/jquery.js"></script>
         <script type="text/javascript" src="../resources/js/materialize.js"></script>
+        <script type="text/javascript" src="../resources/js/materialize-tags.min.js"></script>
         <script type="text/javascript" src="../resources/js/usuario.js"></script>        
     </h:body>
 </html>

@@ -5,23 +5,36 @@
  */
 package com.controlador;
 
+import com.bean.DepartamentoLogica;
+import com.bean.ImagenLogica;
+import com.bean.PerfilLogica;
 import com.bean.SessionLogica;
 import com.bean.UsuarioLogica;
+import com.entidad.Departamento;
+import com.entidad.Imagen;
 import com.entidad.Usuario;
 import com.util.Mensaje;
+import java.io.File;
 import java.io.IOException;
+import org.primefaces.event.FileUploadEvent;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
  * @author ferna
  */
+@ViewScoped
 public class cUsuario implements Serializable{
     private Usuario objAuthUsuario;
     private Usuario objUserPerfil;
+    private UploadedFile archivo;
     
     public cUsuario(){
         this.objAuthUsuario=new Usuario();
@@ -41,11 +54,45 @@ public class cUsuario implements Serializable{
         
     }
     
+
+    
+    
+    public void cargarFoto(){
+       ImagenLogica imL=new ImagenLogica();
+        if(!this.objUserPerfil.getObjPerfil().getImagenPer().equals("none.jpg")){
+           imL.eliminarImagen();
+        }
+//        System.out.println(this.archivo.getFileName());
+        imL.getObjImagen().setImagen(this.archivo);
+        imL.getObjImagen().setNombreArchivo(this.objUserPerfil.getObjPerfil().getImagenPer());
+
+        this.objUserPerfil.getObjPerfil().setImagenPer(imL.guardarImagen());
+        Mensaje.msg("Actualización de Imagen", 
+                "Realizada Correctamente");
+    }
+    
+    public void doActualizarDatosPefil(){
+        if(new PerfilLogica().actualizarDatosPerfil(this.objUserPerfil)){
+            new SessionLogica().setUsuarioSession(this.objUserPerfil);
+            Mensaje.msg("Actualización de Perfil", 
+                "Realizada Correctamente");
+            
+        }else{
+            Mensaje.msg("Actualización de Perfil", 
+                "Ocurrió algún error");
+        }
+    }
+    
     
     public void buscarPerfilUsuario(){
         int codUsuario=new SessionLogica().obtenerUsuarioSession().getCodUsuario();
-        System.out.println(new SessionLogica().obtenerUsuarioSession().getCodUsuario());
         this.objUserPerfil=new UsuarioLogica().BuscarPerfilUsuario(codUsuario);
+    }
+    
+    
+    public List<Departamento> doCargarComboDepartamentos(){
+        List<Departamento> d=new DepartamentoLogica().ListarDepartamentos();
+        return d;
     }
     
     
@@ -73,6 +120,17 @@ public class cUsuario implements Serializable{
     public void setObjUserPerfil(Usuario objUserPerfil) {
         this.objUserPerfil = objUserPerfil;
     }
+
+    public UploadedFile getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(UploadedFile archivo) {
+        this.archivo = archivo;
+    }
+
+   
+    
     
     
     

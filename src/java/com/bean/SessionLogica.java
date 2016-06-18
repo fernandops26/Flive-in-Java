@@ -50,9 +50,11 @@ public class SessionLogica implements Serializable {
     }
     
     public Usuario obtenerUsuarioSession(){
-        Usuario obj=new Usuario();
-       obj=(Usuario) contexto.getExternalContext().getSessionMap().get("objUsuario");
-       System.out.println(obj.getObjPerfil().getImagenPer());
+        Usuario obj=(Usuario) contexto.getExternalContext().getSessionMap().get("objUsuario");
        return obj;
+    }
+    
+    public void setUsuarioSession(Usuario objUsuario){
+        contexto.getExternalContext().getSessionMap().put("objUsuario",objUsuario);
     }
 }

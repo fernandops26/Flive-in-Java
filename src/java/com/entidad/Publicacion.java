@@ -20,8 +20,7 @@ public class Publicacion implements Serializable {
     private Date f_creacionPub;
     private int n_likesPub;
     private Album objAlbum;
-    private List<TagPublicacion> listaTagPublicacion;
-    private List<Comentario> listaComentario;
+    private String tagsPublicacion;
     private List<Gustar> listaGustar;
     
     //falta la lsita de gustar
@@ -86,22 +85,18 @@ public class Publicacion implements Serializable {
         this.objAlbum = objAlbum;
     }
 
-    public List<TagPublicacion> getListaTagPublicacion() {
-        return listaTagPublicacion;
+    public String getTagsPublicacion() {
+        return tagsPublicacion;
     }
 
-    public void setListaTagPublicacion(List<TagPublicacion> listaTagPublicacion) {
-        this.listaTagPublicacion = listaTagPublicacion;
+    public void setTagsPublicacion(String tagsPublicacion) {
+        this.tagsPublicacion = tagsPublicacion;
     }
 
-    public List<Comentario> getListaComentario() {
-        return listaComentario;
-    }
-
-    public void setListaComentario(List<Comentario> listaComentario) {
-        this.listaComentario = listaComentario;
-    }
+ 
     
+
+  
     
     
     

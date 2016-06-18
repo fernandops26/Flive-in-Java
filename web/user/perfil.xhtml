@@ -3,18 +3,144 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/WEB-INF/templateUser.xhtml">
         <ui:define name="cabecera">
             <title>Tu Perfil</title>
+            
+        <f:event type="preRenderView" listener="#{cUsuario.buscarPerfilUsuario()}"/>
         </ui:define>
         
         
         <ui:define name="contenido">
             
-        <f:event type="preRenderView" listener="#{cUsuario.buscarPerfilUsuario()}"/>
-        <h1>#{cUsuario.objUserPerfil.objPerfil.dniPer}</h1>
+        
+        
+        <div class="container ">
+            <div class="card-panel" style="max-width: 800px;margin:auto">
+                <div class="row">
+                    <div class="col s12 m6 offset-s3">
+                        <h2 class="">Mi Perfil</h2>
+                    </div>
+                </div>
             
+            
+                <div class="row center-block" style=" ">
+                    <div class="col s12 centered grey lighten-4" style="padding: 1em;height: 150px;">
+                        <h:form  class="row white" id="formFoto" enctype="multipart/form-data">
+                            <p:growl id="growl" showDetail="true" life="3000" />  
+                            <div class="col s5" style="width: 150px; height: 30px;">
+                                <p:graphicImage id="fotoUsuario" value="../upload/img/users/#{cUsuario.objUserPerfil.objPerfil.imagenPer}" class="responsive-img" />
+                            </div>
+
+                            <div  class="col s7" >
+                                <div>
+
+                                <div class="file-field input-field">
+                                    <div class="btn orange">
+                                      <span>Subir</span>
+                                      <p:fileUpload 
+                                          value="#{cUsuario.archivo}"
+                                          mode="simple" 
+                                          update="fotoUsuario;perfil__img"
+                                          required="true"
+                                          sizeLimit="500000"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                      <input class="file-path validate" type="text"/>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col s12 input-field ">
+                                        <h:commandButton  style="background: none;box-shadow: none" class="btn waves-effect waves-light blue darken-2 right" value="Cambiar!" actionListener="#{cUsuario.cargarFoto}">
+                                            
+                                        </h:commandButton>
+                                    </div>
+                                </div>
+                                </div>
+                                    
+                                    
+                                    
+                          </h:form>
+                        </div>
+                    </div>
+            
+            <h:form class="row" style="" id="formPerfilDatos">
+                <p:growl id="grow2" showDetail="true" life="3000" />  
+                 <div class="row">
+                    <div class="col s12">
+                        <label>Te uniste a Flive desde</label>
+                        <div class="valign-wrapper center-align grey lighten-2" >
+                            <h5 class="valign center-block" >#{cUsuario.objUserPerfil.objPerfil.f_creacionPer}</h5>
+                         </div>
+                    </div>
+                </div>
+            
+                
+                <div class="col grey s12 lighten-4">
+                    <div class="row">
+                        <div class="col s12  m6 input-field ">
+                            <input placeholder="Nombres" value="#{cUsuario.objUserPerfil.objPerfil.nombrePer}" id="nombre" type="text" class="validate" required="true"/>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <div class="col s12 m6 input-field ">
+                            <input placeholder="Nombres" value="#{cUsuario.objUserPerfil.objPerfil.apellidosPer}" id="apellidos" type="text" class="validate" required="true"/>
+                            <label for="apellido">Apellidos</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col s12 l6">
+                            <div class="row">
+                                <div class="col s12 input-field ">
+                                    <input placeholder="Email" value="#{cUsuario.objUserPerfil.email}" disabled="true" id="email" type="text" class="validate" required="true"/>
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 l6">
+                            <div class="row">
+                                <div class="col s12 input-field ">
+                                <h:selectOneMenu id="departamento" required="true"  value="#{cUsuario.objUserPerfil.objPerfil.objDepartamento.codDepartamento}">
+                                    <f:selectItem  itemValue="0"  itemLabel="Selecciona tu departamento"/>
+                                    <f:selectItems value="#{cUsuario.doCargarComboDepartamentos()}" 
+                                                   var="cb" itemLabel="#{cb.nombre_dep}" 
+                                                   itemValue="#{cb.codDepartamento}" 
+                                                   />
+                                 </h:selectOneMenu>
+                                 <label for="departamento">Departamento</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="row">
+                        <div class="col s6 m6 input-field center">
+                            <h:commandButton  actionListener="#{cUsuario.doActualizarDatosPefil()}" type="submit" style="background: none;box-shadow: none" class="btn waves-effect waves-light blue" value="Guardar cambios"/>
+                        </div>
+                        
+                        <div class="col s6 m6 input-field center " >
+                            <h:commandButton  type="reset" style="background: none;box-shadow: none;" class="btn waves-effect waves-light grey " value="Cancelar"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            </div>
+            
+            
+           
+            
+        </div>
+            
+       
         </ui:define>
     </ui:composition>
 </html>

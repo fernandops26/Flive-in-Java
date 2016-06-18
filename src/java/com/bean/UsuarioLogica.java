@@ -67,7 +67,7 @@ public class UsuarioLogica implements Serializable{
                     obj=new Usuario();
                     obj.setCodUsuario(rs.getInt("CODUSUARIO"));
                     obj.setEmail(rs.getString("EMAIL"));
-//                    obj.getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
                     obj.getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
                     obj.getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
                     obj.getObjPerfil().setImagenPer(rs.getString("IMAGEN"));   
@@ -130,6 +130,8 @@ public class UsuarioLogica implements Serializable{
                     obj.getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
                     obj.getObjPerfil().setImagenPer(rs.getString("IMAGEN"));
                     obj.getObjPerfil().setF_creacionPer(rs.getDate("F_CREACION"));
+                    obj.getObjPerfil().getObjDepartamento().setCodDepartamento(rs.getInt("CODDEPARTAMENTO"));
+                    obj.getObjPerfil().getObjDepartamento().setNombre_dep(rs.getString("NOMBREDEP"));
                     return obj;
                 }
       
@@ -139,6 +141,9 @@ public class UsuarioLogica implements Serializable{
         }
         return null;
     }
+    
+    
+    
 }
 
 

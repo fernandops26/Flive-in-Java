@@ -26,6 +26,16 @@
     <managed-bean>
         <managed-bean-name>cUsuario</managed-bean-name>
         <managed-bean-class>com.controlador.cUsuario</managed-bean-class>
-    
-        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+        <managed-bean-name>cAlbum</managed-bean-name>
+        <managed-bean-class>com.controlador.cAlbum</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>cPublicacion</managed-bean-name>
+        <managed-bean-class>com.controlador.cPublicacion</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

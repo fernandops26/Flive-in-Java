@@ -19,12 +19,12 @@ public class Perfil implements Serializable{
     private String apellidosPer;
     private String imagenPer;
     private Date f_creacionPer;
-    private Provincia objProvincia;
+    private Departamento objDepartamento;
     private List<Seguidor> listaSeguidores;
     private List<Notificacion> listaNotificaciones;
     
     public Perfil(){
-        this.objProvincia=new Provincia();
+        this.objDepartamento=new Departamento();
     }
 
     public List<Notificacion> getListaNotificaciones() {
@@ -85,13 +85,14 @@ public class Perfil implements Serializable{
         this.f_creacionPer = f_creacionPer;
     }
 
-    public Provincia getObjProvincia() {
-        return objProvincia;
+    public Departamento getObjDepartamento() {
+        return objDepartamento;
     }
 
-    public void setObjProvincia(Provincia objProvincia) {
-        this.objProvincia = objProvincia;
+    public void setObjDepartamento(Departamento objDepartamento) {
+        this.objDepartamento = objDepartamento;
     }
+
     
     
 }
