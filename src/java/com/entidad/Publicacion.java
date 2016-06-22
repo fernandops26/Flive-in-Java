@@ -21,6 +21,7 @@ public class Publicacion implements Serializable {
     private int n_likesPub;
     private Album objAlbum;
     private String tagsPublicacion;
+    private String[] arrTags;
     private List<Gustar> listaGustar;
     
     //falta la lsita de gustar
@@ -91,6 +92,14 @@ public class Publicacion implements Serializable {
 
     public void setTagsPublicacion(String tagsPublicacion) {
         this.tagsPublicacion = tagsPublicacion;
+    }
+
+    public String[] getArrTags() {
+        return arrTags;
+    }
+
+    public void setArrTags(String[] arrTags) {
+        this.arrTags = arrTags;
     }
 
  

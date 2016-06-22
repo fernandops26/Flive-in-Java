@@ -19,10 +19,13 @@ public class Album implements Serializable {
     private String descripcionAlb;
     private Date f_creacionAlb;
     private Perfil objPerfil;
+    private Categoria objCategoria;
     private List<TagAlbum> listaTagAlbum;
+    private int n_publicaciones;
     
     public Album(){
         this.objPerfil=new Perfil();
+        this.objCategoria=new Categoria();
     }
 
     public int getCodAlbum() {
@@ -64,6 +67,25 @@ public class Album implements Serializable {
     public void setObjPerfil(Perfil objPerfil) {
         this.objPerfil = objPerfil;
     }
+
+    public int getN_publicaciones() {
+        return n_publicaciones;
+    }
+
+    public void setN_publicaciones(int n_publicaciones) {
+        this.n_publicaciones = n_publicaciones;
+    }
+
+    public Categoria getObjCategoria() {
+        return objCategoria;
+    }
+
+    public void setObjCategoria(Categoria objCategoria) {
+        this.objCategoria = objCategoria;
+    }
+    
+    
+    
     
     
 }

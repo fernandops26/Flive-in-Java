@@ -1,0 +1,114 @@
+.ui-dialog-titlebar{
+	display: none;
+}
+
+.ui-button-text-only .ui-button-text{
+	padding:0;
+}
+
+.ui-widget-overlay{
+	background: #000;
+	opacity:0.5;
+	width:100vw !important;
+}
+
+.ui-dialog-content{
+	width: 100%; margin-left: auto;
+}
+
+.ui-widget{
+	font-family:"Roboto", sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.ui-panel{
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+.ui-widget-content{
+	border:none;
+}
+
+.ui-button-text{
+	display:none;
+}
+
+.ui-state-hover{
+	
+	&:hover{
+		background:transparent;
+		border:none;
+		box-shadow:none;
+		outline:none;
+	}
+	// display:none;
+}
+
+.ui-dialog, .ui-widget,.ui-widget-content{
+	// width:auto;
+	line-height:auto;
+
+}
+
+.ui-dialog{
+	// left:50%;
+	// transform:translateX(-50%);
+	// margin:auto;
+
+	border:none;
+	padding:0;
+}
+
+.menu .ui-selectonemenu-label { 
+
+}
+.panel .ui-selectonemenu-list { 
+
+}
+
+.ui-dialog .ui-dialog-content{
+	 position: relative; 
+     border: 0; 
+     padding: 0; 
+     background: none; 
+     overflow: auto; 
+     zoom: 0; 
+}
+
+
+.ui-helper-hidden-accessible{
+	border:0;
+	clip:rect(0,0,0,0);
+	height:0;
+	margin:Auto;
+	overflow:visible;
+	padding:0;
+	position:initial;
+	width:auto;
+}
+
+.ui-selectonemenu{
+	display:block;
+	position:realtive;
+	width:80%;
+	zoom:1;
+	cursor:pointer;
+	padding-right:0;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label{
+	// display:none;
+}
+
+.ui-selectonemenu{
+	display: block;
+    width: 100%;
+}
+
+.modal-con-combo{
+	overflow-y:visible !important;
+	overflow-x:hidden !important;
+	width:80%;
+}

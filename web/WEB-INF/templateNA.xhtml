@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="resources/css/materialize.css"></link>
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/materialize.css"></link>
         <ui:insert name="cabecera">
             
         </ui:insert>
@@ -13,7 +13,7 @@
     <h:body>
             <nav>
                 <div class="nav-wrapper teal ">
-                    <a href="#!" class="brand-logo">Logo</a>
+                    <a href="/" class="brand-logo">Logo</a>
                   <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons"  style="border:none">menu</i></a>
                   <ul class="right hide-on-med-and-down">
                       <li><a href="sass.html">#{tx.mnItem1}</a></li>
@@ -33,9 +33,9 @@
         </ui:insert>
         </div>
         
-        <script type="text/javascript" src="resources/js/jquery.js"></script>
-        <script type="text/javascript" src="resources/js/materialize.js"></script>
-        <script type="text/javascript" src="resources/js/usuario.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/usuario.js"></script>
         
     </h:body>
 </html>

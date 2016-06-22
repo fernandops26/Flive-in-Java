@@ -6,8 +6,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <link rel="stylesheet" href="..//resources/css/materialize.css"></link>
+        
+        <link rel="stylesheet" href="#{request.contextPath}/resources/css/materialize.css"></link>
         <f:event type="preRenderView" listener="#{cUsuario.esAutenticado()}"/>
+        
         <ui:insert name="cabecera">
             
         </ui:insert>
@@ -16,7 +18,7 @@
         
         <div class="menu blue">
             <div class="menu__logo">
-                <a href="#" class="menu__titulo">Flive</a>
+                <a href="#{request.contextPath}" class="menu__titulo">Flive</a>
             </div>
             <div class="menu__busqueda">
                 <div class="busqueda">
@@ -59,12 +61,12 @@
                     </ul>
                 </div>
                 <div class="perfil" id="perfil">
-                    <img  src="../upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}" alt="" class="perfil__img" id="perfil__img" style="min-height: 30px"/>
+                    <img  src="#{request.contextPath}/upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}" alt="" class="perfil__img" id="perfil__img" style="min-height: 30px"/>
                         <div class="opciones" id="opciones__perfil">
                             <h:form>
-                            <li class="opciones__item"><a href="/Flive/user/perfil.xhtml" class="opciones__link">Mi Perfil</a></li>
+                            <li class="opciones__item"><a href="#{request.contextPath}/user/perfil.xhtml" class="opciones__link">Mi Perfil</a></li>
                             <li class="opciones__item"><a href="" class="opciones__link">Configuración</a></li>
-                            <li class="opciones__item"><a href="" class="opciones__link">Mis album´s</a></li>
+                            <li class="opciones__item"><a href="#{request.contextPath}/user/misAlbum.xhtml" class="opciones__link">Mis album´s</a></li>
                             <li class="opciones__item">
                                 <h:commandLink actionListener="#{cUsuario.cerrarSesion()}" class="opciones__link" value="Salir"/>
                             </li>
@@ -149,7 +151,7 @@
                     
                   </div>
                   <div class="modal-footer">
-                      <h:commandButton type="submit"  value="Publicar" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"  actionListener="#{cPublicacion.publicarPost()}">
+                      <h:commandButton type="submit"   value="Publicar" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"  actionListener="#{cPublicacion.publicarPost()}">
                                 <f:ajax execute="@form" render="grow3" />
                     </h:commandButton>
                       
@@ -160,10 +162,12 @@
              </h:form>
          </div>
         
-        <script type="text/javascript" src="../resources/js/jquery.js"></script>
-        <script type="text/javascript" src="../resources/js/materialize.js"></script>
-        <script type="text/javascript" src="../resources/js/materialize-tags.min.js"></script>
-        <script type="text/javascript" src="../resources/js/usuario.js"></script>        
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize-tags.min.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/usuario.js"></script>        
+        <h:outputScript name="jquery/jquery-plugins.js" library="primefaces"/>
     </h:body>
 </html>
 

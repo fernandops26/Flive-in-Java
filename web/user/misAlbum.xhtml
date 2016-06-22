@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+     <ui:composition template="/WEB-INF/templateUser.xhtml">
+        <ui:define name="cabecera">
+            <title>Mis Albums</title>
+            
+        </ui:define>
+        
+        
+         <ui:define name="contenido">
+             <div class="container">
+                 <div class="row">
+                     <div class="col s12">
+                         <h2>Albumes</h2>
+                         <h5>Tus ideas no podían andar sueltas</h5>
+                     </div>
+                     
+                 </div>
+                 <div class="row  " >
+                     <div class="col s12" style="border-bottom:solid 1px #ddd;padding-bottom: .5em;">
+                         <a href="" class="waves-effect waves-light btn btn-block right modal-trigger" data-target="modalNuevoAlbum">Nuevo</a>
+                     
+                     </div>
+                         
+                 </div>
+                 
+                 <div  class="row"  >
+                     <div class="row">
+                     <p:panel class="col s12" id="listaAlbumesUsuario" >
+                         
+                         <ul class="collapsible popout" data-collapsible="accordion" >
+                             
+                             <ui:repeat var="alb" value="#{cAlbum.listarAlbumDetallado()}"  >
+                                 <li>
+                                     <div class="collapsible-header"><i class="material-icons">photo</i>
+                                         <div class="" style="position:relative;">
+                                             #{alb.nombreAlb} <span class="badge" style="height: 30px;line-height: 25px;margin-top: .5em;">#{alb.n_publicaciones} Public.</span>
+                                         </div>
+                                         
+                                     </div>
+                                    <div class="collapsible-body"><p>#{alb.descripcionAlb}</p>
+                                    
+                                        <div class="row" style="position:relative">
+                                            <div class="col s12">
+                                                <h:form>
+                                                    <div class="fixed-action-btn horizontal" style="bottom: 0; right: 24px;position:absolute;" >
+                                                        <a class="btn-floating btn-large red">
+                                                          <i class="large material-icons">mode_edit</i>
+                                                        </a>
+                                                        <ul>
+                                                          <li> 
+                                                              <p:commandLink update="dialogElim" class="btn-floating red " onclick="setTimeout(function() {PF('modalElim').show();}, 400);" actionListener="#{cAlbum.insertarValorAEliminar(alb.codAlbum, alb.nombreAlb)}" >
+                                                                  <i class="material-icons">delete</i>
+                                                                  <p:ajax  event="click" />
+                                                              </p:commandLink>
+                                                          </li>
+                                                            <li><a class="btn-floating yellow darken-1  modal-trigger" href="#modalActualizarAlbum" onclick="activarModales()" data-target="modalActualizarAlbum"  >
+                                                                  <i class="material-icons">edit</i>
+                                                                  <p:ajax   event="click"  listener="#{cAlbum.insertarValorAActualizar(alb.codAlbum)}"  update="formEditarAlbum"/>
+                                                              </a>
+                                                          </li>
+                                                          <li>
+                                                              <h:outputLink class="btn-floating green " value="#{request.contextPath}/user/vistaAlbum.xhtml">
+                                                                  <i class="material-icons">view_comfy</i>
+                                                                  <f:param name="cP" value="#{alb.objPerfil.codPerfil}"/>
+                                                                  <f:param name="codAlbum" value="#{alb.codAlbum}"/>
+                                                              </h:outputLink>
+                                                          </li>
+                                                        </ul>
+                                                      </div>
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </li>
+                             </ui:repeat>
+                      </ul>
+                     </p:panel>
+                     </div>
+                     </div>
+             </div>
+             
+               
+             
+             
+ 
+             <!--MODAL DE CREAR ALBUM-->
+             <div id="modalNuevoAlbum" class="modal ">
+             <h:form id="formNuevoAlbum"  >
+                 <p:growl id="growl6" showDetail="true" life="3000" sticky="true" />  
+                 <div class="modal-content">
+                    <h4>Nuevo Album</h4>
+                    <p>Momento de rodenar ideas!</p>
+                    <div class="row">
+                        <div class="col s12 input-field ">
+                            <h:inputText value="#{cAlbum.objAlbumNuevo.nombreAlb}" id="nombre" class="validate" required="true"/>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <h:inputTextarea required="true"  id="descripcion" class="materialize-textarea" value="#{cAlbum.objAlbumNuevo.descripcionAlb}"></h:inputTextarea>
+                          <label for="descripcion">Descripción</label>
+                        </div>
+                    </div>
+                
+                    
+                    
+                        <div class="row">
+                            <div class="col s12 input-field ">
+                                <h:selectOneMenu id="categoria" required="true"  value="#{cAlbum.objAlbumNuevo.objCategoria.codCategoria}">
+                                <f:selectItem  itemValue=""  itemLabel="Selecciona Categoria"/>
+                                <f:selectItems value="#{cAlbum.cargarCategorias()}" 
+                                               var="cb" itemLabel="#{cb.nombreCategoria}" 
+                                               itemValue="#{cb.codCategoria}" />
+                             </h:selectOneMenu>
+                             <label for="categoria">Categoria</label>
+                            </div>
+                        </div>
+                    
+                    
+                  </div>
+                  <div class="modal-footer">
+                      <p:commandButton type="submit" update="growl6"  value="Crear" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"   actionListener="#{cAlbum.crearAlbum()}">
+                          <p:ajax  update="listaAlbumesUsuario,growl6"  />
+                    </p:commandButton>
+                      
+                      <p:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat" value="Cancelar" actionListener="#{cAlbum.restaurarValoresNuevoAlbum()}" >
+                       <f:ajax execute="@form"   />
+                      </p:commandLink>
+                  </div>
+             </h:form>
+         </div>
+             
+             <!--MODAL DE ELIMINAR ALBUM-->
+             <p:dialog style="margin:auto;" widgetVar="modalElim" modal="true" width="400" responsive="true"  resizable="false" class="modal" id="dialogElim" >
+                <div class="modal-content">
+                        <h4>¿Estas seguro de esta acción?</h4>
+                      <p>Estas a punto de eliminar tu Album <bold style="font-weight: bold" > #{cAlbum.objAlbumEliminar.nombreAlb}</bold></p>
+
+                      <p>Al eliminar tu album también se eliminarán las fotos que estan contenidas en él</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="card-action">
+                        <h:form id="modalElimForm">
+                            <p:growl id="growl5" showDetail="true" life="3000" sticky="true" />  
+                         <p:commandButton style="background:none;border:none;box-shadow: none;" onclick="PF('modalElim').hide()" value="Eliminar" class="btn btn-flat waves-effect waves-red">
+                            <p:ajax event="click"  listener="#{cAlbum.eliminarAlbum()}" update="growl5,listaAlbumesUsuario"/>
+                        </p:commandButton>
+
+                         <p:commandButton style="background:none;border:none;box-shadow: none;" value="Cancelar" onclick="PF('modalElim').hide()"  class=" modal-action waves-effect waves-green btn-flat" type="button"  actionListener="#{cAlbum.restaurarValoresEliminacion()}"   >
+
+                        </p:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </p:dialog> 
+             
+             <!--MODAL DE EDITAR ALBUM-->
+             
+             
+             
+             <div id="modalActualizarAlbum" class="modal modal-fixed-footer ">
+                 <h:form id="formEditarAlbum"  onreset="activarModales()"  >
+                 <p:growl id="growl7" showDetail="true" life="3000" />  
+                 <div class="modal-content">
+                    <h4>Modificar Album</h4>
+                    <p>Cambios de ultimo momento!</p>
+                    <div class="row">
+                        <div class="col s12 input-field ">
+                            <h:inputText value="#{cAlbum.objAlbumEditar.nombreAlb}" id="nombre" class="validate " required="true"/>
+                            <label for="nombre" class="active">Nombre</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <h:inputTextarea required="true"  id="descripcion" class="materialize-textarea " value="#{cAlbum.objAlbumEditar.descripcionAlb}"></h:inputTextarea>
+                            <label for="descripcion" class="active">Descripción</label>
+                        </div>
+                    </div>
+                
+                    
+                    
+                        <div class="row">
+                            <div class="col s12 input-field ">
+                                <h:selectOneMenu id="categoria" required="true"  value="#{cAlbum.objAlbumEditar.objCategoria.codCategoria}">
+                                <f:selectItem  itemValue=""  itemLabel="Selecciona Categoria"/>
+                                <f:selectItems value="#{cAlbum.cargarCategorias()}" 
+                                               var="cb" itemLabel="#{cb.nombreCategoria}" 
+                                               itemValue="#{cb.codCategoria}" />
+                             </h:selectOneMenu>
+                             <label for="categoria">Categoria</label>
+                            </div>
+                        </div>
+                    
+                    
+                  </div>
+                  <div class="modal-footer">
+                      <p:commandButton type="submit" update="growl7,listaAlbumesUsuario"  value="Actualizar" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"  onclick="cerrarModal(this,'#modalActualizarAlbum')"  actionListener="#{cAlbum.actualizarAlbum()}">
+                          
+                    </p:commandButton>
+                      
+                      <p:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat"  onclick="cerrarModal(this,'#modalActualizarAlbum')" value="Cancelar" actionListener="#{cAlbum.restaurarValoresActualziación()}" >
+                      
+                      </p:commandLink>
+                  </div>
+             </h:form>
+         </div>
+             
+             
+             
+         </ui:define>
+         
+     </ui:composition>
+    
+</html>
+

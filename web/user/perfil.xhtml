@@ -25,13 +25,12 @@
                     </div>
                 </div>
             
-            
                 <div class="row center-block" style=" ">
                     <div class="col s12 centered grey lighten-4" style="padding: 1em;height: 150px;">
                         <h:form  class="row white" id="formFoto" enctype="multipart/form-data">
                             <p:growl id="growl" showDetail="true" life="3000" />  
                             <div class="col s5" style="width: 150px; height: 30px;">
-                                <p:graphicImage id="fotoUsuario" value="../upload/img/users/#{cUsuario.objUserPerfil.objPerfil.imagenPer}" class="responsive-img" />
+                                <p:graphicImage id="fotoUsuario" value="/upload/img/users/#{cUsuario.objUserPerfil.objPerfil.imagenPer}" class="responsive-img" />
                             </div>
 
                             <div  class="col s7" >
@@ -49,7 +48,7 @@
                                           allowTypes="/(\.|\/)(jpe?g|png)$/"/>
                                     </div>
                                     <div class="file-path-wrapper">
-                                      <input class="file-path validate" type="text"/>
+                                      <input class="file-path validate" required="true" type="text"/>
                                     </div>
                                 </div>
                                 </div>

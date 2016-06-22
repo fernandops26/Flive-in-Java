@@ -6,6 +6,7 @@
 package com.bean;
 
 import com.entidad.Usuario;
+import com.util.Utiles;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -33,7 +34,8 @@ public static void UsuarioL(){
 
 
 public static void main(String[] args) {
-  Prueba1.UsuarioL();
+ 
+
 
 }
  

@@ -7,6 +7,19 @@ $(document).ready(function(){
          dismissible: false
      });
      
+     $('.btElminarAlbum').on('click',function(){
+         $('#modalElimAlbum').fadeToggle();
+     });
+     
+     $('.collapsible').collapsible({
+      accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+    
+    $('.cbCategoria').material_select();
+    
+     $('.materialboxed').materialbox();
+     
+     
     $('.linkToLogin').on('click',function(){
         $('#formSignup').toggleClass('ocultar_formulario');
         $('#formLogin').toggleClass('ocultar_formulario');
@@ -32,9 +45,79 @@ $(document).ready(function(){
   
     $('.tooltipped').tooltip({delay: 50});
     
-   
-  
+//   $('.modal').removeClass("ui-dialog");
+//   $('.modal').removeClass("ui-widget");
+//   $('.modal').removeClass("ui-widget-content");
+//   $('.modal').removeClass("ui-corner-all");
+//   $('.modal').removeClass("ui-shadow");
+//   $('.modal').removeClass("ui-hidden-container");
+//   $('.modal').removeClass("ui-draggable");
+//   $('.modal').removeClass("ui-resizable");
+//   $('.modal').removeAttr("style");
+//   
+//   $('.modal').find("select").removeAttr("class");
+//   $('.modal').find("select").addClass("browser-default");
+//   $('.modal').addClass('modal');
+//
+//   $('.modal-trigger').on('click',function(){
+//    setTimeout(function(){
+//        
+//    asignarRemovedoresClase();
+//    },500);
+//   });
+
+$('.modal-trigger').on('click',function(){
+    setTimeout(function(){
+        activarModales();
+    },500);
 });
+
+
+});
+
+function cerrarModal(obj,nombreModal){
+    var actual=$(obj);
+    var modal=actual.parents(nombreModal)
+    modal.closeModal();
+    activarModales();
+}
+
+function abrirModal(modal){
+    $(modal).openModal();
+}
+
+
+function activarModales(){
+    setTimeout(function(){
+        $('.modal-trigger').leanModal({
+         dismissible: false
+     });
+     
+      $('select').material_select();
+      
+      $('.collapsible').collapsible({
+      accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+    },500);
+    
+     
+}
+function asignarRemovedoresClase(){
+     $('.modal').removeClass("ui-dialog");
+   $('.modal').removeClass("ui-widget");
+   $('.modal').removeClass("ui-widget-content");
+   $('.modal').removeClass("ui-corner-all");
+   $('.modal').removeClass("ui-shadow");
+   $('.modal').removeClass("ui-hidden-container");
+   $('.modal').removeClass("ui-draggable");
+   $('.modal').removeClass("ui-resizable");
+   $('.modal').removeAttr("style");
+   $('.modal').find("select").removeAttr("class");
+   $('.modal').find("select").addClass("browser-default");
+   
+   $('.modal').addClass('modal');
+   $('.modal').remo
+}
 
  function muestraTags(){
 //  var form=document.getElementById("");
