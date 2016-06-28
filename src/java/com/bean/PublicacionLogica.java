@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
@@ -72,7 +74,7 @@ public class PublicacionLogica implements Serializable{
                     obj.setCodPublicacion(rs.getInt("CODPUBLICACION"));
                     obj.setTituloPub(rs.getString("TITULO"));
                     obj.setImagenPub(rs.getString("IMAGEN"));
-                    obj.setF_creacionPub(rs.getDate("F_CREACION"));
+                    obj.setF_creacionPub(rs.getTimestamp("F_CREACION"));
                     obj.setN_likesPub(rs.getInt("N_LIKES"));
                     obj.getObjAlbum().setCodAlbum(rs.getInt("CODALBUM"));
                     obj.setTagsPublicacion(rs.getString("TAGS"));
@@ -90,6 +92,56 @@ public class PublicacionLogica implements Serializable{
             cl.close();
             con.close();
             System.out.println(arr.size()+"-----");
+        
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return arr;
+    }
+    
+    
+    
+    
+    public List<Publicacion> buscarPublicacionesDePerfil(int codPerfil){
+         Connection con;
+        CallableStatement cl;
+        Publicacion obj;
+        List<Publicacion> arr=null;
+        int id=0;
+        try{
+            con=new ConectorBD().conectar();
+            cl=con.prepareCall("{call PAQ_PUBLIC.sp_buscarPublicacionesDePerfil(?,?)}");
+            cl.setInt(1, codPerfil);
+            cl.registerOutParameter(2, OracleTypes.CURSOR);
+            cl.executeQuery();
+            ResultSet rs=(ResultSet) cl.getObject(2);
+            arr=new ArrayList<>();
+            if(rs.next()){
+                do{
+                   String[] arrTags;
+                   obj=new Publicacion();
+                    obj.setCodPublicacion(rs.getInt("CODPUBLICACION"));
+                    obj.setTituloPub(rs.getString("TITULO"));
+                    obj.setImagenPub(rs.getString("IMAGEN"));
+                    obj.setF_creacionPub(rs.getDate("F_CREACION"));
+                    obj.setN_likesPub(rs.getInt("N_LIKES"));
+                    obj.getObjAlbum().setCodAlbum(rs.getInt("CODALBUM"));
+                    obj.getObjAlbum().setNombreAlb(rs.getString("NOMBRE"));
+                    obj.getObjAlbum().getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.setTagsPublicacion(rs.getString("TAGS"));
+                    arrTags=new Utiles().SepararTags(obj.getTagsPublicacion());
+                    obj.setArrTags(arrTags);
+                    arrTags=null;
+                   
+                    arr.add(obj);
+                    obj=null;
+                }while(rs.next());
+
+            }
+            rs.close();
+            cl.close();
+            con.close();
         
             
         }catch(Exception e){

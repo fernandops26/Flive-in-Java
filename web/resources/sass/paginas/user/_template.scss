@@ -67,6 +67,9 @@
         display:flex;
         align-items:center;
         position:relative;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
         &__img{
             max-width: 100%;
             height: auto;
@@ -88,6 +91,7 @@
         height:0;
         overflow:hidden;
         transition:all .5s;
+        z-index: 100;
         &--activo{
             height:auto;
             box-shadow: 0 0 1px 1px rgba(#000,.5);

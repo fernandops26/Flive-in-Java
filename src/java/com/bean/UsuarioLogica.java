@@ -7,6 +7,7 @@ package com.bean;
 
 import com.entidad.Usuario;
 import com.util.ConectorBD;
+import com.util.Encrypt;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -32,7 +33,7 @@ public class UsuarioLogica implements Serializable{
          con=new ConectorBD().conectar();
          cl=con.prepareCall("{call sp_registrarUsuario(?,?,?,?)}");
           cl.setString(1, objUsuario.getEmail());
-         cl.setString(2, objUsuario.getPassword());
+         cl.setString(2, Encrypt.getStringMessageDigest(objUsuario.getPassword(),Encrypt.MD5));
          cl.setString(3, objUsuario.getObjPerfil().getNombrePer());
          cl.setString(4, objUsuario.getObjPerfil().getApellidosPer());
         
@@ -59,7 +60,7 @@ public class UsuarioLogica implements Serializable{
                 con=new ConectorBD().conectar();
                 cl=con.prepareCall("{call PAQ_USER.sp_loguearUsuario(?,?,?)}");
                 cl.setString(1, objUsuario.getEmail());
-                cl.setString(2, objUsuario.getPassword());
+                cl.setString(2, Encrypt.getStringMessageDigest(objUsuario.getPassword(),Encrypt.MD5));
                 cl.registerOutParameter(3,OracleTypes.CURSOR);
                 cl.executeQuery();
                 ResultSet rs=(ResultSet) cl.getObject(3);
@@ -92,7 +93,7 @@ public class UsuarioLogica implements Serializable{
             con=new ConectorBD().conectar();
             cl=con.prepareCall("{call PAQ_USER.sp_buscarUsuario(?,?,?)}");
             cl.setString(1, objUsuario.getEmail());
-            cl.setString(2, objUsuario.getPassword());
+            cl.setString(2, Encrypt.getStringMessageDigest(objUsuario.getPassword(),Encrypt.MD5));
             cl.registerOutParameter(3, OracleTypes.NUMBER);
             cl.executeQuery();
             id=cl.getInt(3);
@@ -130,6 +131,7 @@ public class UsuarioLogica implements Serializable{
                     obj.getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
                     obj.getObjPerfil().setImagenPer(rs.getString("IMAGEN"));
                     obj.getObjPerfil().setF_creacionPer(rs.getDate("F_CREACION"));
+                    obj.getObjPerfil().setDescripcionPer(rs.getString("DESCRIPCIONPER"));
                     obj.getObjPerfil().getObjDepartamento().setCodDepartamento(rs.getInt("CODDEPARTAMENTO"));
                     obj.getObjPerfil().getObjDepartamento().setNombre_dep(rs.getString("NOMBREDEP"));
                     return obj;

@@ -6,6 +6,7 @@
 package com.entidad;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +20,19 @@ public class Perfil implements Serializable{
     private String apellidosPer;
     private String imagenPer;
     private Date f_creacionPer;
+    private String descripcionPer;
     private Departamento objDepartamento;
     private List<Seguidor> listaSeguidores;
+    List<Publicacion> listaPublicaciones;
+    List<Album> listaAlbumes;
     private List<Notificacion> listaNotificaciones;
     
     public Perfil(){
         this.objDepartamento=new Departamento();
+        this.listaAlbumes=new ArrayList<Album>();
+        this.listaSeguidores=new ArrayList<Seguidor>();
+        this.listaPublicaciones=new ArrayList<Publicacion>();
+        this.listaNotificaciones=new ArrayList<Notificacion>();
     }
 
     public List<Notificacion> getListaNotificaciones() {
@@ -67,7 +75,15 @@ public class Perfil implements Serializable{
         this.apellidosPer = apellidosPer;
     }
 
-   
+    public String getDescripcionPer() {
+        return descripcionPer;
+    }
+
+    public void setDescripcionPer(String descripcionPer) {
+        this.descripcionPer = descripcionPer;
+    }
+
+    
 
     public String getImagenPer() {
         return imagenPer;
@@ -92,6 +108,24 @@ public class Perfil implements Serializable{
     public void setObjDepartamento(Departamento objDepartamento) {
         this.objDepartamento = objDepartamento;
     }
+
+    public List<Publicacion> getListaPublicaciones() {
+        return listaPublicaciones;
+    }
+
+    public void setListaPublicaciones(List<Publicacion> listaPublicaciones) {
+        this.listaPublicaciones = listaPublicaciones;
+    }
+
+    public List<Album> getListaAlbumes() {
+        return listaAlbumes;
+    }
+
+    public void setListaAlbumes(List<Album> listaAlbumes) {
+        this.listaAlbumes = listaAlbumes;
+    }
+    
+    
 
     
     

@@ -7,16 +7,270 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/WEB-INF/templateUser.xhtml">
         <ui:define name="cabecera">
-            <title>Album #{request.getParameter("codAlbum")}</title>
+            <title>Perfil</title>
             
             <f:metadata>
-                <f:viewParam  name="cP" value="#{cPublicacion.codUsuarioDePerticion}"/>
+                <f:viewParam  name="cP" value="#{cPerfil.codPerfilPeticicion}"/>
             </f:metadata>
-            <f:event type="preRenderView"  listener="#{cPublicacion.verPublicacionesDeAlbumes()}"/>
+            <f:event type="preRenderView"  listener="#{cPerfil.evaluarYCargarDatos()}"/>
         </ui:define>
         
         <ui:define name="contenido">
-            Este es un contenido 
+            <div class="container cont_perfil--cabecera">
+                <div class="section">
+                    <div class="card" >
+                        <div class="card__perfil__imagen circle z-depth-2 activator" style="background-image: url('#{request.contextPath}/upload/img/users/#{cPerfil.objPerfilAVer.imagenPer}')" >
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col s3 offset-s2">
+                                    <h4 class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.nombrePer}</h4>
+                                    <p class=" grey-text perfil__parrafo">#{cPerfil.objPerfilAVer.apellidosPer}</p>
+                                </div>
+                                <div class="col s2 center-align">
+                                    <h4 class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.listaPublicaciones.size()}</h4>
+                                    <p class="perfil__parrafo grey-text">Publicaciones</p>
+                                </div>
+                                <div class="col s2 center-align">
+                                    <h4 class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.listaAlbumes.size()}</h4>
+                                    <p class="perfil__parrafo grey-text">Albumes</p>
+                                </div>
+                                <div class="col s2 center-align">
+                                    <h4 class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.listaSeguidores.size()}</h4>
+                                    <p class="perfil__parrafo grey-text">Seguidores</p>
+                                </div>
+                                <h:panelGroup rendered="#{ not cPerfil.verificarPropietarioDeUnPerfil()}">
+                                    <div class="col s1 right-align">
+                                    <a href="#" class="btn-floating activator waves-effect waves-light darken-2 right">
+                                        <i class="material-icons">person_add</i>
+                                    </a>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{cPerfil.verificarPropietarioDeUnPerfil()}">
+                                    <div class="col s1 right-align">
+                                        <a href="#{request.contextPath}/user/perfil.xhtml" class="btn btn-flat  waves-effect waves-light red lighten-2 right white-text tooltipped" data-position="left" data-tooltip="Editar Mi Perfil">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    </div>
+                                </h:panelGroup>
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="card-reveal">
+                            <p>
+                                <span class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.nombrePer}
+                                <i class="mdi-navigation-close right material-icons ">close</i>
+                                </span>
+                                <span>#{cPerfil.objPerfilAVer.objDepartamento.nombre_dep}</span>
+                            </p>
+                            <p>
+                                #{cPerfil.objPerfilAVer.descripcionPer}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cont_perfil--cuerpo row">
+                <div class="cuerpo--izquierda col s12 m4">
+                    <div class="card light-blue">
+                        <div class="card-content white-text">
+                            <span class="card-title">Acerca de mí</span>
+                            <p>#{cPerfil.objPerfilAVer.descripcionPer}</p>
+                            <h:panelGroup rendered="#{cPerfil.verificarPropietarioDeUnPerfil()}">
+                                <div class="row">
+                                    Es usuario de perfil
+                                </div>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{ not cPerfil.verificarPropietarioDeUnPerfil()}">
+                                <div class="row">
+                                   No es usuario de perfil
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <div class="card amber darken-2">
+                        <div class="card-content white-text center-align">
+                            <p class="card-title">
+                                <i class="material-icons">group</i>#{cPerfil.objPerfilAVer.listaSeguidores.size()}
+                            </p>
+                            <p>Seguidores</p>
+                        </div>
+                    </div>
+                    <div class="card red darken-2">
+                        <div class="card-content white-text center-align">
+                            <p class="card-title">
+                                <i class="material-icons">group</i>#{cPerfil.objPerfilAVer.listaSeguidores.size()}
+                            </p>
+                            <p>Seguiendo</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="cuerpo--derecha col s12 m8">
+                    <div align="row">
+                        <div class="col s12">
+                            <ul class="tabs z-depth-1 light-blue">
+                                <li class="tab col s4">
+                                    <a class="white-text waves-effect waves-light active" href="#publicPerfil">
+                                        <i class="material-icons">image</i>
+                                        Publicaciones
+                                    </a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a class="white-text waves-effect waves-light " href="#albumPerfil">
+                                        <i class="material-icons">photo_library</i>
+                                        Albumes
+                                    </a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a class="white-text waves-effect waves-light " href="#seguiPerfil">
+                                        <i class="material-icons">people</i>
+                                        Seguidores
+                                    </a>
+                                </li>
+                            </ul>
+                            <!--Tab publicaciones de perfil-->
+                            <div class="col s12 grey lighten-4" id="publicPerfil">
+                                <h:panelGroup id="lisPublicPerfil" layout="block" >
+                                    <div class="row listaPubEnPerfil" id="listaPubEnPerfil" style="" >
+                                    <ui:repeat var="pub" value="#{cPerfil.objPerfilAVer.listaPublicaciones}">
+                                        <div class="col s12 m12 l6 itemPubEnPerfil" style="">
+                                            <h:form >
+                                            <div class="card ">
+                                                <div class="card-content">
+                                                    <div class="row ">
+                                                        <div class=" col s12 right-align" style="margin-bottom: .4em">
+                                                            <p class="left blue-text lighten-2"><span class="grey-text">Album: </span>
+                                                                <h:outputLink value="#{request.contextPath}/user/vistaAlbum.xhtml">#{pub.objAlbum.nombreAlb}
+                                                                    <f:param name="cP" value="#{pub.objAlbum.objPerfil.codPerfil}"/>
+                                                                    <f:param name="codAlbum" value="#{pub.objAlbum.codAlbum}"/>
+                                                                </h:outputLink></p>
+                                                            <p class="right">#{pub.f_creacionPub}</p>
+                                                        </div>
+                                                        <div class=" col s12">
+                                                            <span class="" style="font-size:1.2em;">#{pub.tituloPub}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                    <div class="row" style="border-bottom:solid 2px #ddd;">
+                                                        <div  style="">
+                                                            <img src="#{request.contextPath}/upload/img/post/#{cPerfil.objPerfilAVer.codPerfil}/all/#{pub.imagenPub}" class=" responsive-img materialboxed"/>
+                                                        </div>
+                                                    </div>
+                                                <div class="card-content">
+                                                    <div class="row"  style="padding-top:2em;">
+                                                        <div class="col s4 m6 left-align">
+                                                            <h:panelGroup layout=""  rendered="#{not cPerfil.verificarLike(pub.codPublicacion) and pub.n_likesPub>0}">
+                                                                <p style="font-size: .9em;">A #{pub.n_likesPub} Flivers les gusto esto</p>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout=""  rendered="#{cPerfil.verificarLike(pub.codPublicacion) and pub.n_likesPub>1}">
+                                                                <p style="font-size: .9em;"> A ti y a #{pub.n_likesPub - 1} Flivers les gusto esto</p>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout=""  rendered="#{cPerfil.verificarLike(pub.codPublicacion) and pub.n_likesPub==1}">
+                                                                <p style="font-size: .9em;"> A ti gusto esto</p>
+                                                            </h:panelGroup>
+                                                            <h:commandLink class="  btn-floating btn red darken-2 " style="display:block;"  onclick="cargarMasonry()" >
+                                                                <i class="material-icons">thumb_up</i>
+                                                                <p:ajax event="click" listener="#{cPerfil.toggleLike(pub.codPublicacion)}"  update="lisPublicPerfil" />
+                                                            </h:commandLink>
+                                                        </div>
+
+                                                        <div class="col s8 m6 right-align">
+                                                            <ui:repeat var="tag" value="#{pub.arrTags}">
+                                                                <div class="chip">
+                                                                    <p>#{tag}</p>
+                                                                </div>
+                                                            </ui:repeat>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </h:form>
+                                        </div>
+                                    </ui:repeat>
+                                    <h:panelGroup rendered="#{cPerfil.objPerfilAVer.listaPublicaciones.size()==0}">
+                                        <div class="col s12 center-align">
+                                            <p class="blue-text lighten-2">#{cPerfil.objPerfilAVer.nombrePer} aún no ha hecho ninguna publicación :(</p>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                                </h:panelGroup>
+                            </div>
+                            
+                            <!--Tab albumes de perfil-->
+                            <div class="col s12 grey lighten-4" id="albumPerfil">
+                                
+                                <div class="row" >
+                                    <ui:repeat var="alb" value="#{cPerfil.objPerfilAVer.listaAlbumes}">
+                                        <div class="col s12  l6 ">
+                                            <div class="card">
+                                                <div class="card-content" style="padding-bottom:0;">
+                                                    <p class="" style="font-size:15px">#{alb.nombreAlb}</p>
+                                                    <p class="grey-text" style="font-size:12px">Creado el #{alb.f_creacionAlb}</p>
+                                                </div>
+                                                <div class="row" style="margin-bottom:0">
+                                                    <div class="col s12">
+                                                        <p style="padding:0 .7em">#{alb.descripcionAlb}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="card-action" style="padding-top:.3em">
+                                                    <span style="font-size: 1em" class=" blue-text darken-1 ">Categoria: #{alb.objCategoria.nombreCategoria}</span>
+
+
+                                                   <div class="row" style="padding-bottom:0;margin-bottom: 0;">
+                                                       <span>#{alb.n_publicaciones} Publicaciones</span>
+                                                       <h:outputLink value="#{request.contextPath}/user/vistaAlbum.xhtml" class="right blue-text text-darken-2">Ver
+                                                                    <f:param name="cP" value="#{alb.objPerfil.codPerfil}"/>
+                                                                    <f:param name="codAlbum" value="#{alb.codAlbum}"/>
+                                                       </h:outputLink>
+                                                   </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                    <h:panelGroup rendered="#{cPerfil.objPerfilAVer.listaAlbumes.size()==0}">
+                                        <div class="col s12  center-align">
+                                            <p class="blue-text lighten-2">#{cPerfil.objPerfilAVer.nombrePer} aún no ha creado ningún Album :(</p>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                            <!--Tab seguidores de Perfil-->
+                            <div class="col s12 grey lighten-4" id="seguiPerfil">
+                                <div class="row">
+                                    <ui:repeat var="segui" value="#{cPerfil.objPerfilAVer.listaSeguidores}">
+                                        <div class="col s12">
+                                            <ul class="collection">
+                                                <li class="collection-item avatar">
+                                                    <div class="circle" style="background-image: url('#{request.contextPath}/upload/img/users/#{segui.objPerfilSeguidor.imagenPer}'); background-size:cover;background-position:center;cursor:pointer;"><a></a>
+                                                      <a style="width:42px;height: 42px; opacity: 0;position:absolute;left:0;top:0;" class="circle" href="#">
+
+                                                      </a>
+                                                  </div>
+                                                    <span class="title">#{segui.objPerfilSeguidor.nombrePer}</span>
+                                                    <p>#{segui.objPerfilSeguidor.objDepartamento.nombre_dep}</p>
+                                                  <a href="#!" class="secondary-content"><i class="material-icons tooltipped" data-tooltip="Ver Perfil">person_pin</i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </ui:repeat>
+                                    <h:panelGroup rendered="#{cPerfil.objPerfilAVer.listaSeguidores.size()==0}">
+                                        <div class="col s12  center-align">
+                                            <p class="blue-text lighten-2">#{cPerfil.objPerfilAVer.nombrePer} no tiene ningun seguidor :(</p>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </ui:define>
     </ui:composition>
 </html>

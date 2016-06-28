@@ -7,10 +7,12 @@ package com.controlador;
 
 import com.bean.AlbumLogica;
 import com.bean.ImagenLogica;
+import com.bean.PerfilLogica;
 import com.bean.PublicacionLogica;
 import com.bean.SessionLogica;
 import com.entidad.Album;
 import com.entidad.Imagen;
+import com.entidad.Perfil;
 import com.entidad.Publicacion;
 import com.util.Mensaje;
 import java.io.Serializable;
@@ -35,7 +37,8 @@ public class cPublicacion implements Serializable{
     private int codAlbumParaPublicaciones=-1;
     //Vista de un Album(cualquier usuario autor o visitante)
     private Album objAlbumActualDetallado;
-    private int codUsuarioDePerticion;
+    private Perfil objPerfilPropietarioAlbumActual;
+    private int codPerfilDePerticion=-1;
    
     
     /**
@@ -45,6 +48,7 @@ public class cPublicacion implements Serializable{
         this.objAlbumActualDetallado=new Album();
         this.arrAlbumSinDetalle=new ArrayList<Album>();
         this.objNPublicacion=new Publicacion();
+        this.objPerfilPropietarioAlbumActual=new Perfil();
         this.codAlbumParaPublicaciones=-1;
     }
     
@@ -90,6 +94,16 @@ public class cPublicacion implements Serializable{
     public void setArrPublicaciones(List<Publicacion> arrPublicaciones) {
         this.arrPublicaciones = arrPublicaciones;
     }
+
+    public Perfil getObjPerfilPropietarioAlbumActual() {
+        return objPerfilPropietarioAlbumActual;
+    }
+
+    public void setObjPerfilPropietarioAlbumActual(Perfil objPerfilPropietarioAlbumActual) {
+        this.objPerfilPropietarioAlbumActual = objPerfilPropietarioAlbumActual;
+    }
+    
+    
     
     
     
@@ -147,15 +161,20 @@ public class cPublicacion implements Serializable{
 //    }
     
     public void verPublicacionesDeAlbumes(){
-        if(this.codAlbumParaPublicaciones!=-1){
+        if(this.codAlbumParaPublicaciones!=-1 && this.codPerfilDePerticion!=-1){
             
              this.objAlbumActualDetallado=new AlbumLogica().buscarAlbDetPorCodigoAlbum(this.codAlbumParaPublicaciones);
-             System.out.println(this.objAlbumActualDetallado.getNombreAlb());
-            this.arrPublicaciones= new PublicacionLogica().buscarPublicacionesDeAlbum(this.codAlbumParaPublicaciones);
+             this.objPerfilPropietarioAlbumActual=new PerfilLogica().buscarPerfilPorCodigo(this.codPerfilDePerticion);
+             if(this.objAlbumActualDetallado!=null && this.objPerfilPropietarioAlbumActual!=null){
+                System.out.println(this.objAlbumActualDetallado.getNombreAlb());
+                this.arrPublicaciones= new PublicacionLogica().buscarPublicacionesDeAlbum(this.codAlbumParaPublicaciones);
+             }else{
+                 new SessionLogica().redirigirA("/user/404.xhtml");
+             }
             
            
         }else{
-            //Redireccionar pagina de error
+            new SessionLogica().redirigirA("/user/404.xhtml");
         }
     }
     
@@ -178,17 +197,17 @@ public class cPublicacion implements Serializable{
         this.objAlbumActualDetallado = objAlbumActualDetallado;
     }
 
-    public int getCodUsuarioDePerticion() {
-        return codUsuarioDePerticion;
+    public int getCodPerfilDePerticion() {
+        return codPerfilDePerticion;
     }
 
-    public void setCodUsuarioDePerticion(int codUsuarioDePerticion) {
-        this.codUsuarioDePerticion = codUsuarioDePerticion;
+    public void setCodPerfilDePerticion(int codPerfilDePerticion) {
+        this.codPerfilDePerticion = codPerfilDePerticion;
     }
 
     
     public boolean verfificarDueñoDelbumOPublicacion(){
-        if(this.codUsuarioDePerticion==new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil()){
+        if(this.codPerfilDePerticion==new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil()){
             return true;
         }else{
             return false;

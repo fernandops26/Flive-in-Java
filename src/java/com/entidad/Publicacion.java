@@ -6,6 +6,7 @@
 package com.entidad;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class Publicacion implements Serializable {
         this.arrTags = arrTags;
     }
 
- 
+  
     
 
   

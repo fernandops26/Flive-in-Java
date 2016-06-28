@@ -32,7 +32,8 @@ import org.primefaces.model.UploadedFile;
  */
 @ViewScoped
 public class cUsuario implements Serializable{
-    private Usuario objAuthUsuario;//Objeto usado en la autenticacion
+    private Usuario objAuthUsuario;//Objeto usado en la autenticacion+
+    private Usuario objRegUsuario;
     private Usuario objUserPerfil; //Objeto utilizado para las actualizaciones de Peril del usuario actual
     private UploadedFile archivo; //Objeto que recibe la imagen enviada por el fileUpload,usado en la actualizacion del perfil actual
     
@@ -57,6 +58,20 @@ public class cUsuario implements Serializable{
             //Mensaje erroneo
             System.out.println("Error de inicio de sesion");
             Mensaje.msg("Error", "Usuario y/o contraseña incorrectos"); 
+        }
+        
+    }
+    
+    public void registrarUsuario(){
+        Usuario obj;
+        if(new UsuarioLogica().RegistroUsuario(this.objRegUsuario)){
+            obj=new UsuarioLogica().IniciarSesion(this.objRegUsuario);
+            
+            if(obj!=null){
+                new SessionLogica().nuevaSesion(obj);
+            }
+        }else{
+            Mensaje.msg("Error de Registro", "Usuario ya existe");
         }
         
     }
@@ -163,6 +178,16 @@ public class cUsuario implements Serializable{
         this.archivo = archivo;
     }
 
+    public Usuario getObjRegUsuario() {
+        return objRegUsuario;
+    }
+
+    public void setObjRegUsuario(Usuario objRegUsuario) {
+        this.objRegUsuario = objRegUsuario;
+    }
+
+    
+    
    
     
     

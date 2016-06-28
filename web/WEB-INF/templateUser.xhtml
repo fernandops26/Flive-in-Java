@@ -18,7 +18,7 @@
         
         <div class="menu blue">
             <div class="menu__logo">
-                <a href="#{request.contextPath}" class="menu__titulo">Flive</a>
+                <a href="#{request.contextPath}/user/home.xhtml" class="menu__titulo">Flive</a>
             </div>
             <div class="menu__busqueda">
                 <div class="busqueda">
@@ -60,12 +60,15 @@
                         </li>
                     </ul>
                 </div>
-                <div class="perfil" id="perfil">
-                    <img  src="#{request.contextPath}/upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}" alt="" class="perfil__img" id="perfil__img" style="min-height: 30px"/>
-                        <div class="opciones" id="opciones__perfil">
+                <div class="perfil" id="perfil" style=" cursor:pointer; background:url('#{request.contextPath}/upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}');background-size:cover;background-position:center;">
+                    <div class="opciones" id="opciones__perfil" style="cursor:pointer;">
                             <h:form>
-                            <li class="opciones__item"><a href="#{request.contextPath}/user/perfil.xhtml" class="opciones__link">Mi Perfil</a></li>
-                            <li class="opciones__item"><a href="" class="opciones__link">Configuración</a></li>
+                            <li class="opciones__item">
+                                <h:outputLink value="#{request.contextPath}/user/vistaPerfil.xhtml" class="opciones__link">Mi Perfil
+                                    <f:param name="cP" value="#{sessionScope.objUsuario.objPerfil.codPerfil}" />
+                                </h:outputLink>
+                            </li>
+                            <li class="opciones__item"><a href="#{request.contextPath}/user/perfil.xhtml" class="opciones__link">Configuración</a></li>
                             <li class="opciones__item"><a href="#{request.contextPath}/user/misAlbum.xhtml" class="opciones__link">Mis album´s</a></li>
                             <li class="opciones__item">
                                 <h:commandLink actionListener="#{cUsuario.cerrarSesion()}" class="opciones__link" value="Salir"/>
@@ -165,7 +168,9 @@
         <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize.js"></script>
-        <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize-tags.min.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/imagesloaded.min.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/masonry.min.js"></script>
+        <!--<script type="text/javascript" src="#{request.contextPath}/resources/js/packery.min.js"></script>-->
         <script type="text/javascript" src="#{request.contextPath}/resources/js/usuario.js"></script>        
         <h:outputScript name="jquery/jquery-plugins.js" library="primefaces"/>
     </h:body>

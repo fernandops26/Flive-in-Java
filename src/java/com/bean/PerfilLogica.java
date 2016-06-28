@@ -5,11 +5,18 @@
  */
 package com.bean;
 
+import com.entidad.Perfil;
+import com.entidad.Publicacion;
 import com.entidad.Usuario;
 import com.util.ConectorBD;
+import com.util.Utiles;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -56,5 +63,42 @@ public class PerfilLogica implements Serializable{
          return false;
       }
       return true;
+    }
+    
+    
+    public Perfil buscarPerfilPorCodigo(int codPerfil){
+         Connection con;
+        CallableStatement cl;
+        Perfil obj=null;
+        int id=0;
+        try{
+            con=new ConectorBD().conectar();
+            cl=con.prepareCall("{call PAQ_PERFIL.sp_buscarPerfilPorCodigo(?,?)}");
+            cl.setInt(1, codPerfil);
+            cl.registerOutParameter(2, OracleTypes.CURSOR);
+            cl.executeQuery();
+            ResultSet rs=(ResultSet) cl.getObject(2);
+            if(rs.next()){
+                    obj=new Perfil();
+                    obj.setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.setNombrePer(rs.getString("NOMBRES"));
+                    obj.setApellidosPer(rs.getString("APELLIDOS"));
+                    obj.setImagenPer(rs.getString("IMAGEN"));
+                    obj.setF_creacionPer(rs.getDate("F_CREACION"));
+                    obj.setDescripcionPer(rs.getString("DESCRIPCIONPER"));
+                    obj.getObjDepartamento().setCodDepartamento(rs.getInt("CODDEPARTAMENTO"));
+                    obj.getObjDepartamento().setNombre_dep(rs.getString("NOMBREDEP"));
+                       return obj;
+            }
+            rs.close();
+            cl.close();
+            con.close();
+        
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return null;
     }
 }

@@ -45,26 +45,7 @@ $(document).ready(function(){
   
     $('.tooltipped').tooltip({delay: 50});
     
-//   $('.modal').removeClass("ui-dialog");
-//   $('.modal').removeClass("ui-widget");
-//   $('.modal').removeClass("ui-widget-content");
-//   $('.modal').removeClass("ui-corner-all");
-//   $('.modal').removeClass("ui-shadow");
-//   $('.modal').removeClass("ui-hidden-container");
-//   $('.modal').removeClass("ui-draggable");
-//   $('.modal').removeClass("ui-resizable");
-//   $('.modal').removeAttr("style");
-//   
-//   $('.modal').find("select").removeAttr("class");
-//   $('.modal').find("select").addClass("browser-default");
-//   $('.modal').addClass('modal');
-//
-//   $('.modal-trigger').on('click',function(){
-//    setTimeout(function(){
-//        
-//    asignarRemovedoresClase();
-//    },500);
-//   });
+
 
 $('.modal-trigger').on('click',function(){
     setTimeout(function(){
@@ -73,7 +54,49 @@ $('.modal-trigger').on('click',function(){
 });
 
 
+//var grid = document.querySelector('#listaPubEnPerfil');
+//var item = document.querySelectorAll('.itemPubEnPerfil');
+
+//salvattore.appendElements(grid, item);
+
+//$('.listaPubEnPerfil').packery({
+//  // options
+//  gutter: 2,
+//   columnWidth: '.col',
+//  itemSelector: '.itemPubEnPerfil'
+//});
+    
+    
+    $(window).load(function(){  
+            
+        var $container = $('#listaPubEnPerfil');
+        $container.imagesLoaded(function(){
+            $container.masonry({
+              columnWidth: '.itemPubEnPerfil',
+              itemSelector: '.itemPubEnPerfil'
+            });
+        });
+    });
+    
+
+//    $('#listaPublicPerfil').on('load',function(){
+//        cargarMasonry();
+//    })
+
 });
+
+function cargarMasonry(){
+    setTimeout(function(){
+        var $container = $('#listaPubEnPerfil');
+        $container.imagesLoaded(function(){
+            $container.masonry({
+              columnWidth: '.itemPubEnPerfil',
+              itemSelector: '.itemPubEnPerfil'
+            });
+        });
+    },300);
+    
+}
 
 function cerrarModal(obj,nombreModal){
     var actual=$(obj);

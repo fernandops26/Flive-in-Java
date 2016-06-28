@@ -23,23 +23,23 @@
                             <h:form class="col s12 " id="formRegistro">
                                 <p:growl id="growlLogin" showDetail="true" sticky="true" />
                                 <div class="input-field col s12 m6">
-                                    <h:inputText id="nombre" class="validate" ></h:inputText>
+                                    <h:inputText id="nombre" class="validate"  value="#{cUsuario.objRegUsuario.objPerfil.nombrePer}"></h:inputText>
                                     <h:outputLabel for="nombre">Nombres</h:outputLabel>
                                 </div>
                                 <div class="input-field col s12 m6 ">
-                                    <h:inputText id="apellidos" class="validate" ></h:inputText>
+                                    <h:inputText id="apellidos" class="validate" value="#{cUsuario.objRegUsuario.objPerfil.apellidosPer}"></h:inputText>
                                     <h:outputLabel for="apellidos">Apellidos</h:outputLabel>
                                 </div>
                                 <div class="input-field col s12">
-                                    <p:inputText id="email" type="email" class="validate" ></p:inputText>
+                                    <p:inputText id="email" type="email" class="validate" value="#{cUsuario.objRegUsuario.email}"></p:inputText>
                                     <p:outputLabel for="email">Email</p:outputLabel>
                                 </div>
                                 <div class="input-field col s12">
-                                    <p:inputText type="password" id="password" maxlength="20"  ></p:inputText>
+                                    <p:inputText type="password" id="password" maxlength="20" value="#{cUsuario.objRegUsuario.password}"  ></p:inputText>
                                     <p:outputLabel for="password">Password</p:outputLabel>
                                 </div>
                                     <div class="col s12 m6  center input-field">
-                                        <h:commandButton action="#{cUser.iniciarSesion}" type="submit" style="background: none;box-shadow: none" class="btn waves-effect waves-light teal" value="Registrarme"/>
+                                        <h:commandButton action="#{cUsuario.registrarUsuario()}" type="submit" style="background: none;box-shadow: none" class="btn waves-effect waves-light teal" value="Registrarme"/>
                                     </div>
                                     <div class="col s12 m6 center  input-field">
                                         

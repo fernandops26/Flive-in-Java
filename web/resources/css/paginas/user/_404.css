@@ -1,0 +1,12 @@
+.cont_404 {
+  width: 100vw;
+  height: 100vh;
+  background-color: tomato;
+  overflow: hidden;
+}
+
+.cont_404 .imagen {
+  display: none !important;
+  max-width: 100%;
+  height: auto;
+}
