@@ -31,7 +31,7 @@ public class UsuarioLogica implements Serializable{
               return false;
           }
          con=new ConectorBD().conectar();
-         cl=con.prepareCall("{call sp_registrarUsuario(?,?,?,?)}");
+         cl=con.prepareCall("{call sp_registroUsuario(?,?,?,?)}");
           cl.setString(1, objUsuario.getEmail());
          cl.setString(2, Encrypt.getStringMessageDigest(objUsuario.getPassword(),Encrypt.MD5));
          cl.setString(3, objUsuario.getObjPerfil().getNombrePer());
@@ -40,11 +40,11 @@ public class UsuarioLogica implements Serializable{
          cl.execute();
          cl.close();
          con.close();
-         estado= true;  
       }catch(Exception e){
          System.out.print(e.getMessage()); 
+         return false;
       }
-      return estado;
+      return true;
     }
     
     

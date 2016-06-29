@@ -83,6 +83,7 @@ public class AlbumLogica implements Serializable {
                     obj.getObjCategoria().setCodCategoria(rs.getInt("CODCATEGORIA"));
                     obj.getObjCategoria().setNombreCategoria(rs.getString("NOMBRECATE"));
                     obj.getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
                     arr.add(obj);
                 }while(rs.next());
 
@@ -185,6 +186,7 @@ public class AlbumLogica implements Serializable {
                     obj.getObjCategoria().setCodCategoria(rs.getInt("CODCATEGORIA"));
                     obj.getObjCategoria().setNombreCategoria(rs.getString("NOMBRECATE"));
                     obj.getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
             }
             rs.close();
             cl.close();

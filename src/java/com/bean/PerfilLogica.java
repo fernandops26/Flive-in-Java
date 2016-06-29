@@ -49,12 +49,12 @@ public class PerfilLogica implements Serializable{
         CallableStatement cl;
       try{
          con=new ConectorBD().conectar();
-         cl=con.prepareCall("{call sp_actualizarDatosPerfil(?,?,?,?)}");
+         cl=con.prepareCall("{call sp_actualizarDatosPerfil(?,?,?,?,?)}");
           cl.setInt(1, objUsuario.getObjPerfil().getCodPerfil());
          cl.setString(2, objUsuario.getObjPerfil().getNombrePer());
          cl.setString(3, objUsuario.getObjPerfil().getApellidosPer());
          cl.setInt(4, objUsuario.getObjPerfil().getObjDepartamento().getCodDepartamento());
-        
+         cl.setString(5, objUsuario.getObjPerfil().getDescripcionPer());
          cl.execute();
          cl.close();
          con.close(); 

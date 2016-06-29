@@ -50,6 +50,7 @@ public class cPublicacion implements Serializable{
         this.objNPublicacion=new Publicacion();
         this.objPerfilPropietarioAlbumActual=new Perfil();
         this.codAlbumParaPublicaciones=-1;
+        this.codPerfilDePerticion=-1;
     }
     
     /**
@@ -162,9 +163,16 @@ public class cPublicacion implements Serializable{
     
     public void verPublicacionesDeAlbumes(){
         if(this.codAlbumParaPublicaciones!=-1 && this.codPerfilDePerticion!=-1){
-            
+            System.out.println("Cod Album Publicaciones:");
+            System.out.println(this.codAlbumParaPublicaciones);
+            System.out.println("Cod Perfil de peticion:");
+            System.out.println(this.codPerfilDePerticion);
              this.objAlbumActualDetallado=new AlbumLogica().buscarAlbDetPorCodigoAlbum(this.codAlbumParaPublicaciones);
+             System.out.println("Obj Album Actual detallado");
+             System.out.println(this.objAlbumActualDetallado.getNombreAlb());
              this.objPerfilPropietarioAlbumActual=new PerfilLogica().buscarPerfilPorCodigo(this.codPerfilDePerticion);
+             System.out.println("Obj Perfil propietario album actual");
+             System.out.println(this.objPerfilPropietarioAlbumActual.getNombrePer());
              if(this.objAlbumActualDetallado!=null && this.objPerfilPropietarioAlbumActual!=null){
                 System.out.println(this.objAlbumActualDetallado.getNombreAlb());
                 this.arrPublicaciones= new PublicacionLogica().buscarPublicacionesDeAlbum(this.codAlbumParaPublicaciones);

@@ -39,7 +39,7 @@
                                     <p:outputLabel for="password">Password</p:outputLabel>
                                 </div>
                                     <div class="col s12 m6  center input-field">
-                                        <h:commandButton action="#{cUsuario.registrarUsuario()}" type="submit" style="background: none;box-shadow: none" class="btn waves-effect waves-light teal" value="Registrarme"/>
+                                        <p:commandButton update="growlLogin" actionListener="#{cUsuario.registrarUsuario()}" type="submit" style="background: none;box-shadow: none" class="btn waves-effect waves-light teal" value="Registrarme"/>
                                     </div>
                                     <div class="col s12 m6 center  input-field">
                                         

@@ -92,7 +92,7 @@
              <!--MODAL DE CREAR ALBUM-->
              <div id="modalNuevoAlbum" class="modal ">
              <h:form id="formNuevoAlbum"  >
-                 <p:growl id="growl6" showDetail="true" life="3000" sticky="true" />  
+                 <p:growl id="growl6" showDetail="true" life="3000"  />  
                  <div class="modal-content">
                     <h4>Nuevo Album</h4>
                     <p>Momento de rodenar ideas!</p>
@@ -131,7 +131,7 @@
                           <p:ajax  update="listaAlbumesUsuario,growl6"  />
                     </p:commandButton>
                       
-                      <p:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat" value="Cancelar" actionListener="#{cAlbum.restaurarValoresNuevoAlbum()}" >
+                      <p:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat" type="button" value="Cancelar" actionListener="#{cAlbum.restaurarValoresNuevoAlbum()}" >
                        <f:ajax execute="@form"   />
                       </p:commandLink>
                   </div>
@@ -149,7 +149,7 @@
                 <div class="modal-footer">
                     <div class="card-action">
                         <h:form id="modalElimForm">
-                            <p:growl id="growl5" showDetail="true" life="3000" sticky="true" />  
+                            <p:growl id="growl5" showDetail="true" life="3000"  />  
                          <p:commandButton style="background:none;border:none;box-shadow: none;" onclick="PF('modalElim').hide()" value="Eliminar" class="btn btn-flat waves-effect waves-red">
                             <p:ajax event="click"  listener="#{cAlbum.eliminarAlbum()}" update="growl5,listaAlbumesUsuario"/>
                         </p:commandButton>

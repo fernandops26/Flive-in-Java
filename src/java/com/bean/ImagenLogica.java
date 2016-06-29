@@ -196,7 +196,8 @@ public class ImagenLogica implements Serializable {
         }
     }
     
-   
+    
+    
 
     public Imagen getObjImagen() {
         return objImagen;

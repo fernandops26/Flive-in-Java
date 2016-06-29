@@ -53,47 +53,35 @@ $('.modal-trigger').on('click',function(){
     },500);
 });
 
-
-//var grid = document.querySelector('#listaPubEnPerfil');
-//var item = document.querySelectorAll('.itemPubEnPerfil');
-
-//salvattore.appendElements(grid, item);
-
-//$('.listaPubEnPerfil').packery({
-//  // options
-//  gutter: 2,
-//   columnWidth: '.col',
-//  itemSelector: '.itemPubEnPerfil'
-//});
     
     
     $(window).load(function(){  
             
         var $container = $('#listaPubEnPerfil');
-        $container.imagesLoaded(function(){
+        if($container!=null){
+            $container.imagesLoaded(function(){
             $container.masonry({
               columnWidth: '.itemPubEnPerfil',
               itemSelector: '.itemPubEnPerfil'
             });
         });
+       }
     });
     
-
-//    $('#listaPublicPerfil').on('load',function(){
-//        cargarMasonry();
-//    })
 
 });
 
 function cargarMasonry(){
     setTimeout(function(){
         var $container = $('#listaPubEnPerfil');
-        $container.imagesLoaded(function(){
+        if($container){
+            $container.imagesLoaded(function(){
             $container.masonry({
               columnWidth: '.itemPubEnPerfil',
               itemSelector: '.itemPubEnPerfil'
             });
         });
+       }
     },300);
     
 }

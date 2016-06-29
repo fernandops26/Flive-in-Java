@@ -9,9 +9,11 @@ import com.bean.AlbumLogica;
 import com.bean.GustarLogica;
 import com.bean.PerfilLogica;
 import com.bean.PublicacionLogica;
+import com.bean.SeguidorLogica;
 import com.bean.SessionLogica;
 import com.entidad.Gustar;
 import com.entidad.Perfil;
+import com.entidad.Seguidor;
 import com.util.Mensaje;
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +27,7 @@ import javax.faces.bean.ManagedBean;
 public class cPerfil implements Serializable{
     private int codPerfilPeticicion=-1;
     private Perfil objPerfilAVer;
+    private Seguidor objNSeguidor;//Objeto utlizado para agregar una nueva relacion de seguidor
     private List<Gustar> listaLikesDePerfil;
     
     public cPerfil (){
@@ -59,7 +62,11 @@ public class cPerfil implements Serializable{
                System.out.println("Linea 52");
                this.objPerfilAVer.setListaAlbumes(new AlbumLogica().BuscarAlbumDetalladoUsuario(this.codPerfilPeticicion));
                this.objPerfilAVer.setListaPublicaciones(new PublicacionLogica().buscarPublicacionesDePerfil(this.codPerfilPeticicion));
-               this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(this.codPerfilPeticicion);
+               this.objPerfilAVer.setListaSeguidores(new SeguidorLogica().buscarSeguidoresDePerfil(this.codPerfilPeticicion));
+               this.objPerfilAVer.setListaPerfilesSiguiendo(new SeguidorLogica().buscarAQuienSigueUnPerfil(this.codPerfilPeticicion));
+               this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
+               System.out.println("Tamaño list: "+this.objPerfilAVer.getListaPerfilesSiguiendo().size());
+               System.out.println("Tamaño list2: "+this.objPerfilAVer.getListaSeguidores().size());
            }else{
                System.out.println("Linea 55");
                new SessionLogica().redirigirA("/user/404.xhtml");
@@ -80,6 +87,28 @@ public class cPerfil implements Serializable{
         }
     }
     
+    public boolean verificarRelacionSeguidor(){
+        return new SeguidorLogica().verificarRelacionSeguidor(codPerfilPeticicion, new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
+    }
+    
+    public void nuevoSeguidor(){
+        if(new SeguidorLogica().nuevoSeguidor(this.codPerfilPeticicion, new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil())){
+            
+               this.objPerfilAVer.setListaSeguidores(new SeguidorLogica().buscarSeguidoresDePerfil(this.codPerfilPeticicion));
+            Mensaje.js("Empezaste a seguir a un Fliver");
+        }else{
+            Mensaje.js("Ocurrio un error");
+        }
+    }
+    
+    public void eliminarSeguidor(){
+        if(new SeguidorLogica().dejarDeSeguir(this.codPerfilPeticicion, new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil())){
+            this.objPerfilAVer.setListaPerfilesSiguiendo(new SeguidorLogica().buscarAQuienSigueUnPerfil(this.codPerfilPeticicion));
+            Mensaje.js("Dejaste de seguir a un Fliver");
+        }else{
+            Mensaje.js("Ocurrió un error");
+        }
+    }
     
     public boolean verificarLike(int codPublicacion){
         for (int i = 0; i < this.listaLikesDePerfil.size(); i++) {
@@ -103,7 +132,7 @@ public class cPerfil implements Serializable{
     
     public void actualizarLikes(){
         this.objPerfilAVer.setListaPublicaciones(new PublicacionLogica().buscarPublicacionesDePerfil(this.codPerfilPeticicion));
-        this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(this.codPerfilPeticicion);
+        this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
            
     }
     

@@ -23,6 +23,7 @@ public class Perfil implements Serializable{
     private String descripcionPer;
     private Departamento objDepartamento;
     private List<Seguidor> listaSeguidores;
+    private List<Seguidor> listaPerfilesSiguiendo;
     List<Publicacion> listaPublicaciones;
     List<Album> listaAlbumes;
     private List<Notificacion> listaNotificaciones;
@@ -31,6 +32,7 @@ public class Perfil implements Serializable{
         this.objDepartamento=new Departamento();
         this.listaAlbumes=new ArrayList<Album>();
         this.listaSeguidores=new ArrayList<Seguidor>();
+        this.listaPerfilesSiguiendo=new ArrayList<Seguidor>();
         this.listaPublicaciones=new ArrayList<Publicacion>();
         this.listaNotificaciones=new ArrayList<Notificacion>();
     }
@@ -124,6 +126,16 @@ public class Perfil implements Serializable{
     public void setListaAlbumes(List<Album> listaAlbumes) {
         this.listaAlbumes = listaAlbumes;
     }
+
+    public List<Seguidor> getListaPerfilesSiguiendo() {
+        return listaPerfilesSiguiendo;
+    }
+
+    public void setListaPerfilesSiguiendo(List<Seguidor> listaPerfilesSiguiendo) {
+        this.listaPerfilesSiguiendo = listaPerfilesSiguiendo;
+    }
+    
+    
     
     
 

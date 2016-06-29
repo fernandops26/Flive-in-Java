@@ -28,11 +28,7 @@ public static void ZonaLogicaR(){
         JOptionPane.showMessageDialog(null,"OK");
     }
 }
-public static void ZonaLogicaL(){
-    {
-//        JOptionPane.showMessageDialog
-//        (null,new ZonaObservacionLogica().Listar().size());
-    }
+public static void Prueba11(){
 }
 
 public static void main(String[] args) {

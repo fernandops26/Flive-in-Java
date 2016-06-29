@@ -39,11 +39,25 @@
                                     <h4 class="card-title grey-text text-darken-4">#{cPerfil.objPerfilAVer.listaSeguidores.size()}</h4>
                                     <p class="perfil__parrafo grey-text">Seguidores</p>
                                 </div>
-                                <h:panelGroup rendered="#{ not cPerfil.verificarPropietarioDeUnPerfil()}">
+                                <h:panelGroup id="opsSocialesPerfil" layout="">
+                                <h:panelGroup rendered="#{ not cPerfil.verificarPropietarioDeUnPerfil() and not cPerfil.verificarRelacionSeguidor()}">
                                     <div class="col s1 right-align">
-                                    <a href="#" class="btn-floating activator waves-effect waves-light darken-2 right">
-                                        <i class="material-icons">person_add</i>
-                                    </a>
+                                        <h:form>
+                                            <h:commandLink class="btn-floating  waves-effect waves-light darken-2 right"    >
+                                                <i class="material-icons">person_add</i> 
+                                                <p:ajax  event="click" listener="#{cPerfil.nuevoSeguidor()}"   update="listSeguiPerfil,opsSocialesPerfil,card-seguidores"/>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{ not cPerfil.verificarPropietarioDeUnPerfil() and cPerfil.verificarRelacionSeguidor()}">
+                                    <div class="col s1 right-align">
+                                        <h:form>
+                                            <h:commandLink class="btn-floating waves-effect red waves-light darken-2 right">
+                                                <i class="material-icons">remove_circle</i>
+                                                <p:ajax  event="click" listener="#{cPerfil.eliminarSeguidor()}"   update="listSeguiPerfil,opsSocialesPerfil,card-seguidores"/>
+                                            </h:commandLink>
+                                        </h:form>
                                     </div>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{cPerfil.verificarPropietarioDeUnPerfil()}">
@@ -54,7 +68,7 @@
                                     </div>
                                 </h:panelGroup>
                                 
-                                
+                                </h:panelGroup>
                             </div>
                         </div>
                         <div class="card-reveal">
@@ -91,20 +105,20 @@
                         </div>
                     </div>
                     <div class="card amber darken-2">
-                        <div class="card-content white-text center-align">
+                        <h:panelGroup class="card-content white-text center-align" layout="block" id="card-seguidores">
                             <p class="card-title">
                                 <i class="material-icons">group</i>#{cPerfil.objPerfilAVer.listaSeguidores.size()}
                             </p>
                             <p>Seguidores</p>
-                        </div>
+                        </h:panelGroup>
                     </div>
                     <div class="card red darken-2">
-                        <div class="card-content white-text center-align">
+                        <h:panelGroup class="card-content white-text center-align" layout="block" id="card-siguiendo">
                             <p class="card-title">
-                                <i class="material-icons">group</i>#{cPerfil.objPerfilAVer.listaSeguidores.size()}
+                                <i class="material-icons">group</i>#{cPerfil.objPerfilAVer.listaPerfilesSiguiendo.size()}
                             </p>
                             <p>Seguiendo</p>
-                        </div>
+                        </h:panelGroup>
                     </div>
                     
                 </div>
@@ -157,7 +171,7 @@
 
                                                     <div class="row" style="border-bottom:solid 2px #ddd;">
                                                         <div  style="">
-                                                            <img src="#{request.contextPath}/upload/img/post/#{cPerfil.objPerfilAVer.codPerfil}/all/#{pub.imagenPub}" class=" responsive-img materialboxed"/>
+                                                            <img src="#{request.contextPath}/upload/img/post/#{cPerfil.objPerfilAVer.codPerfil}/all/#{pub.imagenPub}" class=" responsive-img materialboxed" data-caption="#{pub.tituloPub}"/>
                                                         </div>
                                                     </div>
                                                 <div class="card-content">
@@ -243,7 +257,7 @@
                             </div>
                             <!--Tab seguidores de Perfil-->
                             <div class="col s12 grey lighten-4" id="seguiPerfil">
-                                <div class="row">
+                                <h:panelGroup layout="block" class="row" id="listSeguiPerfil">
                                     <ui:repeat var="segui" value="#{cPerfil.objPerfilAVer.listaSeguidores}">
                                         <div class="col s12">
                                             <ul class="collection">
@@ -255,7 +269,10 @@
                                                   </div>
                                                     <span class="title">#{segui.objPerfilSeguidor.nombrePer}</span>
                                                     <p>#{segui.objPerfilSeguidor.objDepartamento.nombre_dep}</p>
-                                                  <a href="#!" class="secondary-content"><i class="material-icons tooltipped" data-tooltip="Ver Perfil">person_pin</i></a>
+                                                    <h:outputLink value="#{request.contextPath}/user/vistaPerfil.xhtml" class="secondary-content">
+                                                        <i class="material-icons tooltipped" data-tooltip="Ver Perfil">person_pin</i>
+                                                        <f:param name="cP" value="#{segui.objPerfilSeguidor.codPerfil}" />
+                                                    </h:outputLink>
                                                 </li>
                                             </ul>
                                         </div>
@@ -265,7 +282,7 @@
                                             <p class="blue-text lighten-2">#{cPerfil.objPerfilAVer.nombrePer} no tiene ningun seguidor :(</p>
                                         </div>
                                     </h:panelGroup>
-                                </div>
+                                </h:panelGroup>
                             </div>
                         </div>
                     </div>

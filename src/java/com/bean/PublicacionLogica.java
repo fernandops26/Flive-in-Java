@@ -74,12 +74,15 @@ public class PublicacionLogica implements Serializable{
                     obj.setCodPublicacion(rs.getInt("CODPUBLICACION"));
                     obj.setTituloPub(rs.getString("TITULO"));
                     obj.setImagenPub(rs.getString("IMAGEN"));
-                    obj.setF_creacionPub(rs.getTimestamp("F_CREACION"));
+                    obj.setF_creacionPub(rs.getDate("F_CREACION"));
                     obj.setN_likesPub(rs.getInt("N_LIKES"));
                     obj.getObjAlbum().setCodAlbum(rs.getInt("CODALBUM"));
                     obj.setTagsPublicacion(rs.getString("TAGS"));
-                    
-                    arrTags=new Utiles().SepararTags(obj.getTagsPublicacion());
+                    obj.getObjAlbum().setNombreAlb("NOMBREALBUM");
+                   obj.getObjAlbum().getObjPerfil().setCodPerfil(rs.getInt("codPerfil"));   
+                   obj.getObjAlbum().getObjPerfil().setNombrePer(rs.getString("nombresPer")); 
+                   
+                   arrTags=new Utiles().SepararTags(obj.getTagsPublicacion());
                     obj.setArrTags(arrTags);
                     arrTags=null;
                    
@@ -91,7 +94,6 @@ public class PublicacionLogica implements Serializable{
             rs.close();
             cl.close();
             con.close();
-            System.out.println(arr.size()+"-----");
         
             
         }catch(Exception e){

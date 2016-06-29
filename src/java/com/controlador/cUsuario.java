@@ -5,15 +5,18 @@
  */
 package com.controlador;
 
+import com.bean.AlbumLogica;
 import com.bean.DepartamentoLogica;
 import com.bean.ImagenLogica;
 import com.bean.PerfilLogica;
 import com.bean.SessionLogica;
 import com.bean.UsuarioLogica;
+import com.entidad.Album;
 import com.entidad.Departamento;
 import com.entidad.Imagen;
 import com.entidad.Usuario;
 import com.util.Mensaje;
+import com.util.Utiles;
 import java.io.File;
 import java.io.IOException;
 import org.primefaces.event.FileUploadEvent;
@@ -39,6 +42,7 @@ public class cUsuario implements Serializable{
     
     public cUsuario(){
         this.objAuthUsuario=new Usuario();
+        this.objRegUsuario=new Usuario();
     }
     
     /**
@@ -63,12 +67,24 @@ public class cUsuario implements Serializable{
     }
     
     public void registrarUsuario(){
-        Usuario obj;
+        Usuario obj=new Usuario();
+        Album objAlb=null;
         if(new UsuarioLogica().RegistroUsuario(this.objRegUsuario)){
             obj=new UsuarioLogica().IniciarSesion(this.objRegUsuario);
             
             if(obj!=null){
-                new SessionLogica().nuevaSesion(obj);
+                if(new Utiles().crearRutasPublicacionesUsuarioNuevo(obj.getCodUsuario())){
+                    objAlb=new Album();
+                    objAlb.setNombreAlb("Flive");
+                    objAlb.setDescripcionAlb("Este este es tu primer Album, lo adquiriste cuando te registraste en Flive");
+                    objAlb.getObjCategoria().setCodCategoria(41);
+                    objAlb.getObjPerfil().setCodPerfil(obj.getCodUsuario());
+                    if(new AlbumLogica().crearAlbum(objAlb)){
+                        new SessionLogica().nuevaSesion(obj);
+                        this.objRegUsuario=new Usuario();
+                    }
+                    
+                }
             }
         }else{
             Mensaje.msg("Error de Registro", "Usuario ya existe");

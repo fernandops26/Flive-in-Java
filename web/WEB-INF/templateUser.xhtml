@@ -155,7 +155,7 @@
                   </div>
                   <div class="modal-footer">
                       <h:commandButton type="submit"   value="Publicar" id="btR" class="modal-action modal-close waves-effect waves-green btn-flat"  actionListener="#{cPublicacion.publicarPost()}">
-                                <f:ajax execute="@form" render="grow3" />
+                                <f:ajax execute="@form" render="grow3"  />
                     </h:commandButton>
                       
                       <h:commandLink  class="modal-action modal-close waves-effect waves-green btn-flat" value="Regresar" actionListener="#{cPublicacion.retaurarPublicacion()}" >
@@ -168,9 +168,9 @@
         <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize-tags.min.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/imagesloaded.min.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/masonry.min.js"></script>
-        <!--<script type="text/javascript" src="#{request.contextPath}/resources/js/packery.min.js"></script>-->
         <script type="text/javascript" src="#{request.contextPath}/resources/js/usuario.js"></script>        
         <h:outputScript name="jquery/jquery-plugins.js" library="primefaces"/>
     </h:body>
