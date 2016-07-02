@@ -16,7 +16,7 @@
     
     &__busqueda{
         flex-grow: 1;
-        height: 30px;
+        height: 35px;
     }
     
     &__avatar{
@@ -35,7 +35,7 @@
         display: flex;
         position:relative;
         background-color:#fff;
-        height:30px;
+        height:33px;
         padding:0;
         &__input{
             margin-top: 1px;
@@ -58,6 +58,20 @@
             justify-content:center;
             align-items:center;
             &>i{
+            }
+        }
+        
+        .materialize-tags {
+            margin-top: -7px;
+            margin-left:.3em;
+            height:38px;
+            
+            .chip{
+               height: 25px;
+               line-height: 25px;
+               i{
+                line-height: 25px;
+               }
             }
         }
     }

@@ -21,11 +21,12 @@
                 <a href="#{request.contextPath}/user/home.xhtml" class="menu__titulo">Flive</a>
             </div>
             <div class="menu__busqueda">
-                <div class="busqueda">
-                    <input id="busqueda" type="text" class="busqueda__input"/>
+                <div class="busqueda" id="busqueda__contenedor">
+                    <input id="busqueda" type="text" class="busqueda__input" data-role="materialtags" onchange="pasarTagsInputSearch()"  />
                     <label for="busqueda" class="busqueda__icono">
                         <i class="material-icons ">search</i>
                     </label>
+                    
                     
                 </div>
             </div>

@@ -8098,6 +8098,14 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: none;
 }
 
+.busqueda {
+  /*    .materialize-tags {
+          input[type="text"]{
+          }
+          
+      }*/
+}
+
 .cont_404 {
   width: 100%;
   height: calc( 100vh - 35px);
@@ -8211,7 +8219,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  height: 30px;
+  height: 35px;
 }
 .menu__avatar {
   width: 70px;
@@ -8238,7 +8246,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: flex;
   position: relative;
   background-color: #fff;
-  height: 30px;
+  height: 33px;
   padding: 0;
 }
 .menu .busqueda__input {
@@ -8267,6 +8275,18 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+}
+.menu .busqueda .materialize-tags {
+  margin-top: -7px;
+  margin-left: .3em;
+  height: 38px;
+}
+.menu .busqueda .materialize-tags .chip {
+  height: 25px;
+  line-height: 25px;
+}
+.menu .busqueda .materialize-tags .chip i {
+  line-height: 25px;
 }
 .menu .perfil {
   width: 40%;

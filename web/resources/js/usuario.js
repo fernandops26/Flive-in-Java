@@ -68,6 +68,19 @@ $('.modal-trigger').on('click',function(){
        }
     });
     
+    
+    $("#busqueda__contenedor").find('.n-tag').keyup(function(e){
+        if (e.keyCode == 13) {
+            console.log("Enter");
+            var items =$("#busqueda").materialtags('items');
+            var tagsConcat="";
+            for (var i = 0; i < items.length; i++) {
+               tagsConcat+=items[i] +" ";
+            }
+            window.location.href = '/Flive/user/busqueda.xhtml?consulta='+tagsConcat; 
+            
+        }
+    });
 
 });
 
@@ -154,4 +167,21 @@ function asignarRemovedoresClase(){
     console.log(tagsConcat);
     input.value=tagsConcat;
  }
+ 
+ 
+ function pasarTagsInputSearch(){
+     var items =$("#busqueda").materialtags('items');
+     var input =document.getElementById('#busqueda');
+     
+     var tagsConcat="";
+     for (var i = 0; i < items.length; i++) {
+        tagsConcat+=items[i] +" ";
+    }
+    
+    console.log(tagsConcat);
+ }
+ 
+ 
+ 
+
         

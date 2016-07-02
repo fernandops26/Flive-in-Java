@@ -43,5 +43,10 @@
         <managed-bean-class>com.controlador.cPerfil</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>cMotor</managed-bean-name>
+        <managed-bean-class>com.controlador.cMotor</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
    
 </faces-config>

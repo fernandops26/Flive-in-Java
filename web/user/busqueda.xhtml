@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/WEB-INF/templateUser.xhtml">
+        <ui:define name="cabecera">
+            <title>Busqueda</title>
+            
+            <f:metadata>
+                <f:viewParam name="consulta" value="#{cMotor.consulta}"></f:viewParam>
+            </f:metadata>
+            <f:event type="preRenderView" listener="#{cMotor.buscarTexto()}" />
+        </ui:define>
+        
+        <ui:define name="contenido">
+            <h:panelGroup id="lisPublicGeneral" layout="block" >
+                    <div class="row listaPubGeneral" id="listaPubGeneral" style="" >
+                        <ui:repeat var="pub" value="#{cMotor.listaPubGeneral}">
+                        <div class="col s12 m6 l4 itemPubEnPerfil" style="">
+                            <h:form >
+                            <div class="card ">
+                                
+
+                                    <div class="row" style="border-bottom:solid 2px #ddd;">
+                                        <div class="col s12 " style="margin-bottom:.3em">
+                                            <p class="left blue-text lighten-2 chip"  style="margin-bottom:0;">
+                                                <h:outputLink value="#{request.contextPath}/user/vistaPerfil.xhtml" >#{pub.objAlbum.objPerfil.nombrePer}
+                                                    <img src="#{request.contextPath}/upload/img/users/#{pub.objAlbum.objPerfil.imagenPer}" class="responsive-img circle"/>
+                                                    <f:param name="cP" value="#{pub.objAlbum.objPerfil.codPerfil}"/>
+                                                </h:outputLink>
+                                            </p>
+                                            <p class="grey-text text-lighten-1 right" style="font-size:.8em;">#{pub.f_creacionPub}</p>
+                                            <div class="col s12" style="padding: 0;margin:0;">
+                                                <p class=" left blue-text lighten-2" style="font-size:.8em;"><span class="grey-text">Album: </span>
+                                                    <h:outputLink value="#{request.contextPath}/user/vistaAlbum.xhtml">#{pub.objAlbum.nombreAlb}
+                                                        <f:param name="cP" value="#{pub.objAlbum.objPerfil.codPerfil}"/>
+                                                        <f:param name="codAlbum" value="#{pub.objAlbum.codAlbum}"/>
+                                                    </h:outputLink>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col s12" >
+                                            <img src="#{request.contextPath}/upload/img/post/#{pub.objAlbum.objPerfil.codPerfil}/all/#{pub.imagenPub}" class=" responsive-img materialboxed" data-caption="#{pub.tituloPub}"/>
+                                        </div>
+                                        
+                                    </div>
+                                <div class="card-content" style="padding-top: .5em">
+                                    <div class="row">
+                                        <p>#{pub.tituloPub}</p>
+                                    </div>
+                                    <div class="row"  style="padding-top:0;">
+                                        <div class="col s12  right-align">
+                                            <ui:repeat var="tag" value="#{pub.arrTags}">
+                                                <div class="chip" style="height:20px;line-height: 20px;">
+                                                    <p>#{tag}</p>
+                                                </div>
+                                            </ui:repeat>
+                                        </div>
+                                        
+                                        <div class="col s12 left-align">
+                                            <h:panelGroup layout=""  rendered="#{not cMotor.verificarLike(pub.codPublicacion) and pub.n_likesPub>0}">
+                                                <p style="font-size: .9em;">A #{pub.n_likesPub} Flivers les gusto esto</p>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout=""  rendered="#{cMotor.verificarLike(pub.codPublicacion) and pub.n_likesPub>1}">
+                                                <p style="font-size: .9em;"> A ti y a #{pub.n_likesPub - 1} Flivers les gusto esto</p>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout=""  rendered="#{cMotor.verificarLike(pub.codPublicacion) and pub.n_likesPub==1}">
+                                                <p style="font-size: .9em;"> A ti gusto esto</p>
+                                            </h:panelGroup>
+                                            <h:commandLink class="  btn-floating btn red darken-2 " style="display:block;"  onclick="cargarMasonry()" >
+                                                <i class="material-icons">thumb_up</i>
+                                                <p:ajax event="click" listener="#{cMotor.toggleLike(pub.codPublicacion)}"  update="lisPublicGeneral" />
+                                            </h:commandLink>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            </h:form>
+                        </div>
+                    </ui:repeat>
+                        <h:panelGroup rendered="#{cMotor.listaPubGeneral.size()==0}">
+                        <div class="col s12 center-align">
+                            <p class="blue-text lighten-2">No pudimos encontrar resultados</p>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </h:panelGroup>
+            
+            
+            
+        </ui:define>
+        
+    </ui:composition>
+</html>
+

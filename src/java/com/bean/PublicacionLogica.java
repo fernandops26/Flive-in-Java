@@ -151,4 +151,57 @@ public class PublicacionLogica implements Serializable{
         }
         return arr;
     }
+    
+    
+    public List<Publicacion> buscarTodasPublicaciones(){
+         Connection con;
+        CallableStatement cl;
+        Publicacion obj;
+        List<Publicacion> arr=null;
+        int id=0;
+        try{
+            con=new ConectorBD().conectar();
+            cl=con.prepareCall("{call PAQ_PUBLIC.sp_buscarTodasPublicaciones(?)}");
+            cl.registerOutParameter(1, OracleTypes.CURSOR);
+            cl.executeQuery();
+            ResultSet rs=(ResultSet) cl.getObject(1);
+            arr=new ArrayList<>();
+            if(rs.next()){
+                do{
+                   String[] arrTags;
+                   obj=new Publicacion();
+                    obj.setCodPublicacion(rs.getInt("CODPUBLICACION"));
+                    obj.setTituloPub(rs.getString("TITULO"));
+                    obj.setImagenPub(rs.getString("IMAGEN"));
+                    obj.setF_creacionPub(rs.getDate("F_CREACION"));
+                    obj.setN_likesPub(rs.getInt("N_LIKES"));
+                    obj.getObjAlbum().setCodAlbum(rs.getInt("CODALBUM"));
+                    obj.getObjAlbum().setNombreAlb(rs.getString("NOMBRE"));
+                    obj.getObjAlbum().getObjCategoria().setCodCategoria(rs.getInt("CODCATEGORIA"));
+                    obj.getObjAlbum().getObjCategoria().setNombreCategoria(rs.getString("NOMBRECATE"));
+                    obj.getObjAlbum().getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.getObjAlbum().getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
+                    obj.getObjAlbum().getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
+                    obj.getObjAlbum().getObjPerfil().setImagenPer(rs.getString("IMAGENPER"));
+                    obj.setTagsPublicacion(rs.getString("TAGS"));
+                    arrTags=new Utiles().SepararTags(obj.getTagsPublicacion());
+                    obj.setArrTags(arrTags);
+                    arrTags=null;
+                   
+                    arr.add(obj);
+                    obj=null;
+                }while(rs.next());
+
+            }
+            rs.close();
+            cl.close();
+            con.close();
+        
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return arr;
+    }
+    
 }
