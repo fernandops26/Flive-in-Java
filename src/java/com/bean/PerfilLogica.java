@@ -101,4 +101,44 @@ public class PerfilLogica implements Serializable{
         }
         return null;
     }
+    
+    
+    public List<Perfil> buscarTodosPerfiles(){
+         Connection con;
+        CallableStatement cl;
+        Perfil obj=null;
+        List<Perfil> lista=new ArrayList<>();
+        int id=0;
+        try{
+            con=new ConectorBD().conectar();
+            cl=con.prepareCall("{call PAQ_PERFIL.sp_buscarTodosPerfiles(?)}");
+            cl.registerOutParameter(1, OracleTypes.CURSOR);
+            cl.executeQuery();
+            ResultSet rs=(ResultSet) cl.getObject(1);
+            if(rs.next()){
+                
+                do{
+                    obj=new Perfil();
+                    obj.setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.setNombrePer(rs.getString("NOMBRES"));
+                    obj.setApellidosPer(rs.getString("APELLIDOS"));
+                    obj.setImagenPer(rs.getString("IMAGEN"));
+                    obj.setF_creacionPer(rs.getDate("F_CREACION"));
+                    obj.setDescripcionPer(rs.getString("DESCRIPCIONPER"));
+                    obj.getObjDepartamento().setCodDepartamento(rs.getInt("CODDEPARTAMENTO"));
+                    obj.getObjDepartamento().setNombre_dep(rs.getString("NOMBREDEP"));
+                    lista.add(obj);
+                    obj=null;
+                }while(rs.next());
+            }
+            rs.close();
+            cl.close();
+            con.close();
+        
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return lista;
+    }
 }

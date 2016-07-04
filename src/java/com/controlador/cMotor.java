@@ -10,6 +10,7 @@ import com.bean.MotorLogica;
 import com.bean.PublicacionLogica;
 import com.bean.SessionLogica;
 import com.entidad.Gustar;
+import com.entidad.Perfil;
 import com.entidad.Publicacion;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -19,22 +20,31 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.primefaces.context.RequestContext;
 /**
  *
  * @author ferna
  */
-
+@ManagedBean
 public class cMotor implements Serializable{
     private String consulta="";
     private List<Publicacion> listaPubGeneral=null;
-     private List<Gustar> listaLikesDePerfil;
+    private List<Gustar> listaLikesDePerfil;
+    private List<Perfil> listaPerfilesEncontrados=null; 
+    private String consultaPerfil="";
     /**
      * Creates a new instance of cMotor
      */
     public cMotor() {
         this.listaPubGeneral=new ArrayList<Publicacion>();
         this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
+        this.listaPerfilesEncontrados=new ArrayList<Perfil>();
+        this.consultaPerfil="";
+        this.consulta="";
     }
     
     public void buscarTexto() throws IOException, ParseException, java.text.ParseException{
@@ -91,8 +101,40 @@ public class cMotor implements Serializable{
     public void setListaPubGeneral(List<Publicacion> listaPubGeneral) {
         this.listaPubGeneral = listaPubGeneral;
     }
+
+    public String getConsultaPerfil() {
+        return consultaPerfil;
+    }
+
+    public void setConsultaPerfil(String consultaPerfil) {
+        this.consultaPerfil = consultaPerfil;
+    }
+
+    public List<Perfil> getListaPerfilesEncontrados() {
+        return listaPerfilesEncontrados;
+    }
+
+    public void setListaPerfilesEncontrados(List<Perfil> listaPerfilesEncontrados) {
+        this.listaPerfilesEncontrados = listaPerfilesEncontrados;
+    }
+
     
 
     
+    public void buscarAlTipear() throws IOException, ParseException, java.text.ParseException{
+        this.consultaPerfil.trim();
+            if(this.consultaPerfil.length()>1){
+                this.listaPerfilesEncontrados=new MotorLogica().buscarPerfilesAlTipear(this.consultaPerfil);
+                System.out.println(this.listaPerfilesEncontrados.size());
+            }else{
+                this.listaPerfilesEncontrados.clear();
+            }
+            
+       
+//       System.out.println(this.listaPerfilesEncontrados.size());
+//       RequestContext.getCurrentInstance().update("listaPerfilesEncontrados");
+    }
+            
+            
     
 }

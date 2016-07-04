@@ -6,6 +6,7 @@
 package com.util;
 
 import com.bean.PublicacionLogica;
+import com.entidad.Perfil;
 import com.entidad.Publicacion;
 import java.io.IOException;
 import java.io.Serializable;
@@ -95,6 +96,8 @@ public class Indexador implements Serializable {
             }
         }
         
+        
+        
         public void limpiarIndexado() throws IOException{
             this.writer2.deleteAll();
         }
@@ -115,17 +118,16 @@ public class Indexador implements Serializable {
                 String[] arrTags=null;
                 for (ScoreDoc sd1 : score) {
                     obj=new Publicacion();
-                    SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                 
                     dc=this.searcher2.doc(sd1.doc);
-                    System.out.println("ID: "+ dc.get("cod"));
-                    System.out.println("NOMBRE: "+ dc.get("titulo"));
-                    System.out.println("DESCRIPCION: "+ dc.get("tags"));
-                    System.out.println("CATEGORIA: "+ dc.get("categoria"));
                     obj.setCodPublicacion(Integer.parseInt(dc.get("codPublicacion")));
                     obj.setTituloPub(dc.get("titulo"));
                     obj.setImagenPub(dc.get("imagen"));
-                    java.util.Date fecha=sdf.parse(dc.get("f_publicacion"));
-                    obj.setF_creacionPub(fecha);
+                    //Date fecha = new Date(new SimpleDateFormat("yyyy-MM-dd").format(dc.get("f_publicacion")));
+                    
+                    System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(DateTools.stringToDate(dc.get("f_publicacion"))));
+                    obj.setF_creacionPub(DateTools.stringToDate(dc.get("f_publicacion")));
                     obj.setN_likesPub(Integer.parseInt(dc.get("n_likes")));
                     obj.setTagsPublicacion(dc.get("tags"));
                     obj.getObjAlbum().setCodAlbum(Integer.parseInt(dc.get("codAlbum")));
@@ -151,4 +153,59 @@ public class Indexador implements Serializable {
                   
         }
     
+        
+        
+        public void construirIndexadoPerfiles(List<Perfil> listaPer) throws IOException{
+            this.limpiarIndexado();
+            Document doc=null;
+            for (int i = 0; i < listaPer.size(); i++) {
+                doc = new Document();
+                doc.add(new IntField("codPerfil",listaPer.get(i).getCodPerfil() ,Field.Store.YES));
+                doc.add(new StringField("nombres",listaPer.get(i).getNombrePer(),Field.Store.YES));
+                doc.add(new StringField("apellidos",listaPer.get(i).getApellidosPer(),Field.Store.YES));
+                doc.add(new StringField("imagen",listaPer.get(i).getImagenPer(),Field.Store.YES));
+                doc.add(new IntField("codDepartamento",listaPer.get(i).getObjDepartamento().getCodDepartamento(), Store.YES));
+                doc.add(new StringField("nombredep",listaPer.get(i).getObjDepartamento().getNombre_dep(), Store.YES));
+                String todos=listaPer.get(i).getNombrePer().trim() +" "+ listaPer.get(i).getApellidosPer();
+                doc.add(new Field("fullname",todos,Store.NO,Field.Index.ANALYZED));
+                this.writer2.addDocument(doc);
+                doc=null;
+            }
+        }
+        
+        public List<Perfil> buscarPerfiles(String consulta) throws IOException, ParseException, java.text.ParseException{
+            Perfil obj;
+            List<Perfil> listaPer;
+            this.reader2 = DirectoryReader.open(this.writer2, true);
+            this.searcher2 = new IndexSearcher(this.reader2);
+            this.qp2=new QueryParser(Version.LUCENE_41,"fullname",analizador);
+            this.qp2.setDefaultOperator(QueryParser.Operator.AND);
+            this.qp2.setAllowLeadingWildcard(true);
+            Query query=this.qp2.parse(consulta+"*");
+            TopDocs docs=this.searcher2.search(query, 4);
+                    
+                ScoreDoc[] score=docs.scoreDocs;
+                Document dc=null;
+                listaPer=new ArrayList<>();
+                for (ScoreDoc sd1 : score) {
+                    obj=new Perfil();
+                    dc=this.searcher2.doc(sd1.doc);
+                    obj.setCodPerfil(Integer.parseInt(dc.get("codPerfil")));
+                    obj.setNombrePer(dc.get("nombres"));
+                    obj.setApellidosPer(dc.get("apellidos"));
+                    obj.setImagenPer(dc.get("imagen"));
+                    obj.getObjDepartamento().setCodDepartamento(Integer.parseInt(dc.get("codDepartamento")));
+                    obj.getObjDepartamento().setNombre_dep(dc.get("nombredep"));
+                    
+                    listaPer.add(obj);
+                    obj=null;
+                }       
+                
+            this.writer2.deleteAll();
+            this.writer2.close();
+                
+            return listaPer;
+                  
+        }
+        
 }

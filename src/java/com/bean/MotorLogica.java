@@ -5,6 +5,7 @@
  */
 package com.bean;
 
+import com.entidad.Perfil;
 import com.entidad.Publicacion;
 import com.util.Indexador;
 import java.io.IOException;
@@ -22,13 +23,17 @@ public class MotorLogica implements Serializable {
         this.objInd1=new Indexador();
     }
     
-    public void buscarPublicaciones(){
-        
-    }
+    
     
     public List<Publicacion> buscarPublicacionesGenerales(String consulta) throws IOException, ParseException, java.text.ParseException{
         objInd1.crearEscritorIndexado();
         objInd1.construirIndexadoPublicaciones(new PublicacionLogica().buscarTodasPublicaciones());
         return objInd1.buscarPublicaciones(consulta);
+    }
+    
+    public List<Perfil> buscarPerfilesAlTipear(String consulta) throws IOException, ParseException, java.text.ParseException{
+        this.objInd1.crearEscritorIndexado();
+        this.objInd1.construirIndexadoPerfiles(new PerfilLogica().buscarTodosPerfiles());
+        return this.objInd1.buscarPerfiles(consulta);
     }
 }

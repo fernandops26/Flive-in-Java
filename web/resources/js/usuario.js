@@ -59,12 +59,10 @@ $('.modal-trigger').on('click',function(){
             
         var $container = $('#listaPubEnPerfil');
         if($container!=null){
-            $container.imagesLoaded(function(){
             $container.masonry({
               columnWidth: '.itemPubEnPerfil',
               itemSelector: '.itemPubEnPerfil'
             });
-        });
        }
     });
     
@@ -77,8 +75,21 @@ $('.modal-trigger').on('click',function(){
             for (var i = 0; i < items.length; i++) {
                tagsConcat+=items[i] +" ";
             }
-            window.location.href = '/Flive/user/busqueda.xhtml?consulta='+tagsConcat; 
+            setTimeout(function(){
+                window.location.href = '/Flive/user/busqueda.xhtml?consulta='+tagsConcat; 
             
+            },1);
+           
+            
+        }else{
+            var escribiendo=$(this).val();
+            var input =document.getElementById('formBusqueda:inputBusqHidden');
+            input.value=escribiendo;
+            setTimeout(function(){
+                $(input).trigger('change');
+            },1);
+            
+//            $("#inputBusqHidden").val($(this).val());
         }
     });
 
@@ -140,7 +151,7 @@ function asignarRemovedoresClase(){
    $('.modal').find("select").addClass("browser-default");
    
    $('.modal').addClass('modal');
-   $('.modal').remo
+//   $('.modal').remo
 }
 
  function muestraTags(){
@@ -157,6 +168,7 @@ function asignarRemovedoresClase(){
  }
  
  function pasarTagsInput(){
+     
      var items =$("#cajaTags").materialtags('items');
      var input =document.getElementById('formulario:tagsConcatenados');
      
@@ -181,6 +193,9 @@ function asignarRemovedoresClase(){
     console.log(tagsConcat);
  }
  
+ function press(){
+     console.log("asd");
+ }
  
  
 

@@ -22,13 +22,37 @@
             </div>
             <div class="menu__busqueda">
                 <div class="busqueda" id="busqueda__contenedor">
-                    <input id="busqueda" type="text" class="busqueda__input" data-role="materialtags" onchange="pasarTagsInputSearch()"  />
+                    <input id="busqueda" type="text" class="busqueda__input" data-role="materialtags"   >
+                       
+                    </input>
+                    <h:form id="formBusqueda">
+                        <p:inputText type="hidden" id="inputBusqHidden" value="#{cMotor.consultaPerfil}"  >
+                            <p:ajax event="change" listener="#{cMotor.buscarAlTipear()}" update="listaPerfilesEncontrados" />
+                    </p:inputText>
+                    </h:form>
                     <label for="busqueda" class="busqueda__icono">
                         <i class="material-icons ">search</i>
                     </label>
                     
                     
                 </div>
+                <h:panelGroup layout="block"  id="listaPerfilesEncontrados">
+                    
+                    <ul class="collection" style="margin-top:0;z-index: 1000">
+                        <ui:repeat var="per" value="#{cMotor.listaPerfilesEncontrados}">
+                        
+                            <h:outputLink class="collection-item avatar" value="#{request.contextPath}/user/vistaPerfil.xhtml" >
+                                <f:param name="cP" value="#{per.codPerfil}" />
+                                <img src="#{request.contextPath}/upload/img/users/#{per.imagenPer}" alt="" class="circle" style="margin-top:.5em"/>
+                                <span class="title" style="font-size:.9em;">#{per.nombrePer}</span>
+                                <p style="font-size:.85em;">#{per.apellidosPer} <br/>
+                                    #{per.objDepartamento.nombre_dep}
+                                </p>
+                            </h:outputLink>
+                        </ui:repeat>
+                    </ul>
+                </h:panelGroup>
+               
             </div>
             <div class="menu__avatar">
                 <div class="notificacion" id="notificacion">
