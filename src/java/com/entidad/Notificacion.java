@@ -6,6 +6,7 @@
 package com.entidad;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -13,15 +14,17 @@ import java.io.Serializable;
  */
 public class Notificacion implements Serializable {
     private int codNotificacion;
-    private String contenidoNot;
-    private boolean leidoNot;
+    private Publicacion objPublicacion;
+    private int leidoNot;
     private Perfil objPerfil;
-    private Perfil objPerfilOrien;
+    private Perfil objPerfilOrigen;
     private TipoNotificacion objTipoNotificacion;
+    private Date fecha;
     
     public Notificacion(){
         this.objPerfil=new Perfil();
-        this.objPerfilOrien=new Perfil();
+        this.objPerfilOrigen=new Perfil();
+        this.objPublicacion=new Publicacion();
         this.objTipoNotificacion=new TipoNotificacion();
     }
 
@@ -33,21 +36,22 @@ public class Notificacion implements Serializable {
         this.codNotificacion = codNotificacion;
     }
 
-    public String getContenidoNot() {
-        return contenidoNot;
-    }
-
-    public void setContenidoNot(String contenidoNot) {
-        this.contenidoNot = contenidoNot;
-    }
-
-    public boolean isLeidoNot() {
+    public int getLeidoNot() {
         return leidoNot;
     }
 
-    public void setLeidoNot(boolean leidoNot) {
+    public void setLeidoNot(int leidoNot) {
         this.leidoNot = leidoNot;
     }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
 
     public Perfil getObjPerfil() {
         return objPerfil;
@@ -57,13 +61,23 @@ public class Notificacion implements Serializable {
         this.objPerfil = objPerfil;
     }
 
-    public Perfil getObjPerfilOrien() {
-        return objPerfilOrien;
+    public Publicacion getObjPublicacion() {
+        return objPublicacion;
     }
 
-    public void setObjPerfilOrien(Perfil objPerfilOrien) {
-        this.objPerfilOrien = objPerfilOrien;
+    public void setObjPublicacion(Publicacion objPublicacion) {
+        this.objPublicacion = objPublicacion;
     }
+
+    public Perfil getObjPerfilOrigen() {
+        return objPerfilOrigen;
+    }
+
+    public void setObjPerfilOrigen(Perfil objPerfilOrigen) {
+        this.objPerfilOrigen = objPerfilOrigen;
+    }
+
+    
 
     public TipoNotificacion getObjTipoNotificacion() {
         return objTipoNotificacion;

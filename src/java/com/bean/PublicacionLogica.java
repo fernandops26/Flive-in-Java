@@ -204,4 +204,48 @@ public class PublicacionLogica implements Serializable{
         return arr;
     }
     
+    
+    
+    
+    public Publicacion buscarPublicacionesPorCodigo(int codPublicacion){
+         Connection con;
+        CallableStatement cl;
+        Publicacion obj=new Publicacion();
+        int id=0;
+        try{
+            con=new ConectorBD().conectar();
+            cl=con.prepareCall("{call PAQ_PUBLIC.sp_buscarPublicPorCodigo(?,?)}");
+            cl.setInt(1, codPublicacion);
+            cl.registerOutParameter(2, OracleTypes.CURSOR);
+            cl.executeQuery();
+            ResultSet rs=(ResultSet) cl.getObject(2);
+            if(rs.next()){
+                   String[] arrTags;
+                    obj.setCodPublicacion(rs.getInt("CODPUBLICACION"));
+                    obj.setTituloPub(rs.getString("TITULO"));
+                    obj.setImagenPub(rs.getString("IMAGEN"));
+                    obj.setF_creacionPub(rs.getDate("F_CREACION"));
+                    obj.setN_likesPub(rs.getInt("N_LIKES"));
+                    obj.getObjAlbum().setCodAlbum(rs.getInt("CODALBUM"));
+                    obj.setTagsPublicacion(rs.getString("TAGS"));
+                    obj.getObjAlbum().getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
+                    obj.getObjAlbum().getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
+                    obj.getObjAlbum().getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
+                   
+                   arrTags=new Utiles().SepararTags(obj.getTagsPublicacion());
+                    obj.setArrTags(arrTags);
+
+            }
+            rs.close();
+            cl.close();
+            con.close();
+        
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return obj;
+    }
+    
 }

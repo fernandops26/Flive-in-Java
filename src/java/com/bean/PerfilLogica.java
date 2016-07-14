@@ -139,6 +139,7 @@ public class PerfilLogica implements Serializable{
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+        System.out.println("Perfiles encontados: "+lista.size());
         return lista;
     }
 }

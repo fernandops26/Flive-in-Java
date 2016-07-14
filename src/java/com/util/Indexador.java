@@ -164,8 +164,12 @@ public class Indexador implements Serializable {
                 doc.add(new StringField("nombres",listaPer.get(i).getNombrePer(),Field.Store.YES));
                 doc.add(new StringField("apellidos",listaPer.get(i).getApellidosPer(),Field.Store.YES));
                 doc.add(new StringField("imagen",listaPer.get(i).getImagenPer(),Field.Store.YES));
-                doc.add(new IntField("codDepartamento",listaPer.get(i).getObjDepartamento().getCodDepartamento(), Store.YES));
-                doc.add(new StringField("nombredep",listaPer.get(i).getObjDepartamento().getNombre_dep(), Store.YES));
+                if(listaPer.get(i).getObjDepartamento().getCodDepartamento()>0){
+                    doc.add(new IntField("codDepartamento",listaPer.get(i).getObjDepartamento().getCodDepartamento(), Store.YES));
+                }
+                if(listaPer.get(i).getObjDepartamento().getNombre_dep()!=null){
+                    doc.add(new StringField("nombredep",listaPer.get(i).getObjDepartamento().getNombre_dep(), Store.YES));
+                }
                 String todos=listaPer.get(i).getNombrePer().trim() +" "+ listaPer.get(i).getApellidosPer();
                 doc.add(new Field("fullname",todos,Store.NO,Field.Index.ANALYZED));
                 this.writer2.addDocument(doc);
@@ -194,9 +198,12 @@ public class Indexador implements Serializable {
                     obj.setNombrePer(dc.get("nombres"));
                     obj.setApellidosPer(dc.get("apellidos"));
                     obj.setImagenPer(dc.get("imagen"));
-                    obj.getObjDepartamento().setCodDepartamento(Integer.parseInt(dc.get("codDepartamento")));
-                    obj.getObjDepartamento().setNombre_dep(dc.get("nombredep"));
-                    
+                    if(dc.get("codDepartamento")!=null){
+                        obj.getObjDepartamento().setCodDepartamento(Integer.parseInt(dc.get("codDepartamento")));
+                    }
+                    if(dc.get("nombredep")!=null){
+                         obj.getObjDepartamento().setNombre_dep(dc.get("nombredep"));
+                    }
                     listaPer.add(obj);
                     obj=null;
                 }       

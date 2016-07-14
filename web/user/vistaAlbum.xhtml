@@ -52,7 +52,11 @@
                                     <div class="row">
                                         <div class="col s12">
                                             <span class="card-title grey-text text-darken-4 " style="font-size: 1.1em;line-height: 20px;">#{pub.tituloPub}</span>
-                                            <span class="right blue-text text-lighten-2 " style="font-size: .9em">#{pub.f_creacionPub}</span>
+                                            <span class="right blue-text text-lighten-2 " style="font-size: .9em">
+                                                <h:outputText value="#{pub.f_creacionPub}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </h:outputText> 
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="row">

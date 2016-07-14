@@ -193,10 +193,7 @@ function asignarRemovedoresClase(){
     console.log(tagsConcat);
  }
  
- function press(){
-     console.log("asd");
- }
- 
- 
-
-        
+ function prueba(data){
+     console.log("Usuario: " +data.nombrePerOrigen);
+     console.log("Usuario: " +data.accion);
+ }      

@@ -7,11 +7,13 @@ package com.controlador;
 
 import com.bean.AlbumLogica;
 import com.bean.GustarLogica;
+import com.bean.NotificacionLogica;
 import com.bean.PerfilLogica;
 import com.bean.PublicacionLogica;
 import com.bean.SeguidorLogica;
 import com.bean.SessionLogica;
 import com.entidad.Gustar;
+import com.entidad.Notificacion;
 import com.entidad.Perfil;
 import com.entidad.Seguidor;
 import com.util.Mensaje;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -29,6 +32,7 @@ public class cPerfil implements Serializable{
     private Perfil objPerfilAVer;
     private Seguidor objNSeguidor;//Objeto utlizado para agregar una nueva relacion de seguidor
     private List<Gustar> listaLikesDePerfil;
+    
     
     public cPerfil (){
         this.objPerfilAVer=new Perfil();
@@ -140,13 +144,25 @@ public class cPerfil implements Serializable{
     public void toggleLike(int codPublicacion){
 //        Mensaje.js("Diste un like a "+codPublicacion);
 //        int pos=this.posicionLike(codPublicacion);
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        cNotificacion beanNot = (cNotificacion) facesContext.getApplication().
+                getVariableResolver().resolveVariable(facesContext, "cNotificacion");
+    
         if(this.verificarLike(codPublicacion)){
             new GustarLogica().eliminarLikePublicacion(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
             this.actualizarLikes();
+            
+            new NotificacionLogica().eliminarNotificacionLike(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
             Mensaje.js("Dejo de gustarte una publicacion");
+            
            
         }else{
             new GustarLogica().nuevoLikePublicacion(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
+            
+            //Nueva notificacion
+           
+            beanNot.notificacionLike(codPublicacion);
             this.actualizarLikes();
             Mensaje.js("Te gusto una publicación");
         }

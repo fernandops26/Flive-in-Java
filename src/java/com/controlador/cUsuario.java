@@ -58,6 +58,9 @@ public class cUsuario implements Serializable{
         if(obj!=null){
             //Pasa el objeto para ser guardado en una variable de session
             new SessionLogica().nuevaSesion(obj);
+            //Contruye un canal de socket para el usuario
+            new cNotificacion().construirCanal();
+            
         }else{
             //Mensaje erroneo
             System.out.println("Error de inicio de sesion");
@@ -163,6 +166,11 @@ public class cUsuario implements Serializable{
      * Metodo encargado de cerrar la session del usuario
      **/
     public void cerrarSesion(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        cNotificacion beanNot = (cNotificacion) facesContext.getApplication().
+                getVariableResolver().resolveVariable(facesContext, "cNotificacion");
+        beanNot.destruirCanal();
+        
         new SessionLogica().eliminarSesion();
     }
     

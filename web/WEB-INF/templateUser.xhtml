@@ -9,13 +9,16 @@
         
         <link rel="stylesheet" href="#{request.contextPath}/resources/css/materialize.css"></link>
         <f:event type="preRenderView" listener="#{cUsuario.esAutenticado()}"/>
-        
+        <f:event type="preRenderView" listener="#{cNotificacion.cargarNotificaciones()}" />
         <ui:insert name="cabecera">
             
         </ui:insert>
     </h:head>
     <h:body>
-        
+        <p:growl widgetVar="growlnotif" showDetail="true" />
+        <p:socket onMessage="prueba" channel="/#{cNotificacion.canalActual}"  >
+            <p:ajax event="message" update="notificacion__numero" listener="#{cNotificacion.cargarNotificaciones()}" />
+        </p:socket>
         <div class="menu blue">
             <div class="menu__logo">
                 <a href="#{request.contextPath}/user/home.xhtml" class="menu__titulo">Flive</a>
@@ -57,9 +60,9 @@
             <div class="menu__avatar">
                 <div class="notificacion" id="notificacion">
                     <i class="material-icons notificacion__icono">alarm</i>
-                    <span class="notificacion__numero">
-                        4
-                    </span>
+                    <h:panelGroup layout="span" class="notificacion__numero" id="notificacion__numero" rendered="#{cNotificacion.listaNotif.size()>0}">
+                        #{cNotificacion.listaNotif.size()}
+                    </h:panelGroup>
                     <ul class="notificacion__lista" id="notificacion__lista">
                         <span class="notificacion__titulo">Notificaciones</span>
                         <li class="notificacion__item">
