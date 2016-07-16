@@ -83,12 +83,17 @@ public class NotificacionLogica implements Serializable{
                         obj.setCodNotificacion(rs.getInt("CODNOTIFICACION"));
                         obj.getObjPublicacion().setCodPublicacion(rs.getInt("CODPUBLICACION"));
                         obj.getObjPublicacion().setTituloPub(rs.getString("TITULO"));
+                        obj.getObjPublicacion().setImagenPub(rs.getString("IMAGENPUB"));
                         obj.getObjPerfilOrigen().setCodPerfil(rs.getInt("CODPERFIL_ORIGEN"));
                         obj.getObjPerfilOrigen().setNombrePer(rs.getString("NOMBRES_ORIGEN"));
+                        obj.getObjPerfilOrigen().setImagenPer(rs.getString("IMAGEN_ORIGEN"));
+                        obj.getObjPerfilOrigen().setApellidosPer(rs.getString("APELLIDOS_ORIGEN"));
                         obj.getObjPerfil().setCodPerfil(rs.getInt("CODPERFIL"));
                         obj.getObjPerfil().setNombrePer(rs.getString("NOMBRES"));
+                        obj.getObjPerfil().setApellidosPer(rs.getString("APELLIDOS"));
+                        obj.getObjPerfil().setImagenPer(rs.getString("IMAGEN"));
                         obj.setLeidoNot(rs.getInt("LEIDO"));
-                        obj.setFecha(rs.getDate("fecha"));
+                        obj.setFecha(new java.util.Date(rs.getTimestamp("fecha").getTime()));
                         obj.getObjTipoNotificacion().setCodTipoNotificacion(rs.getInt("CODTIPONOTIFICACION"));
 
                         lista.add(obj);
@@ -126,4 +131,23 @@ public class NotificacionLogica implements Serializable{
       return true;
     }
     
+    
+    public boolean eliminarNotificacionSeguidor(int codPerfilOrigen,int codPerfil){
+        Connection con;
+        CallableStatement cl;
+      try{
+         
+         con=new ConectorBD().conectar();
+         cl=con.prepareCall("{call sp_eliminarNotifSeguidor(?,?)}");
+          cl.setInt(1, codPerfilOrigen);
+         cl.setInt(2, codPerfil);
+         cl.execute();
+         cl.close();
+         con.close();
+      }catch(Exception e){
+         System.out.print(e.getMessage()); 
+         return false;
+      }
+      return true;
+    }
 }

@@ -16,8 +16,8 @@
     </h:head>
     <h:body>
         <p:growl widgetVar="growlnotif" showDetail="true" />
-        <p:socket onMessage="prueba" channel="/#{cNotificacion.canalActual}"  >
-            <p:ajax event="message" update="notificacion__numero" listener="#{cNotificacion.cargarNotificaciones()}" />
+        <p:socket onMessage="prueba" channel="/#{cNotificacion.canalActual}"   >
+            <p:ajax event="message" listener="#{cNotificacion.cargarNotificaciones()}"  update="notificacion__numero,notificacion_list"  />
         </p:socket>
         <div class="menu blue">
             <div class="menu__logo">
@@ -60,33 +60,71 @@
             <div class="menu__avatar">
                 <div class="notificacion" id="notificacion">
                     <i class="material-icons notificacion__icono">alarm</i>
-                    <h:panelGroup layout="span" class="notificacion__numero" id="notificacion__numero" rendered="#{cNotificacion.listaNotif.size()>0}">
+                    <h:panelGroup layout="span" class="notificacion__numero" id="notificacion__numero" >
                         #{cNotificacion.listaNotif.size()}
                     </h:panelGroup>
+                    <h:panelGroup id="notificacion_list" >
                     <ul class="notificacion__lista" id="notificacion__lista">
                         <span class="notificacion__titulo">Notificaciones</span>
-                        <li class="notificacion__item">
-                            <a class="notificacion__link" href="#">
-                                <span class="notificacion__usuario">Usuario uno</span>
-                                <p class="notificacion__texto">Le dio click a tu flive</p>
-                                <span class="notificacion__tiempo">Hace 2 minutos</span>
-                            </a>
-                        </li>
-                        <li class="notificacion__item">
-                            <a class="notificacion__link" href="#">
-                                <span class="notificacion__usuario">Usuario juan</span>
-                                <p class="notificacion__texto">Te esta siguiento</p>
-                                <span class="notificacion__tiempo">Hace 20 minutos</span>
-                            </a>
-                        </li>
-                        <li class="notificacion__item">
-                            <a class="notificacion__link" href="#">
-                                <span class="notificacion__usuario">Usuario esteban</span>
-                                <p class="notificacion__texto">compartio tu foto</p>
-                                <span class="notificacion__tiempo">Hace 1 hora</span>
-                            </a>
-                        </li>
-                    </ul>
+                        <ui:repeat  value="#{cNotificacion.listaNotif}" var="noti" >
+                            <h:panelGroup rendered="#{noti.objTipoNotificacion.codTipoNotificacion==1}" >
+                                <li class="notificacion__item">
+                                    <a class="notificacion__link" href="#">
+                                        <div style="width: 70%">
+                                            <h:panelGroup  rendered="#{noti.leidoNot==0}"  >
+                                                <span class="notificacion__nueva">Nueva</span>
+                                            </h:panelGroup>
+                                            <span class="notificacion__usuario">#{noti.objPerfilOrigen.nombrePer} #{noti.objPerfilOrigen.apellidosPer} </span>
+                                            <p class="notificacion__texto">Le gustó tu publicacion <span style="font-weight:bold;">#{noti.objPublicacion.tituloPub}</span></p>
+                                            <h:outputText class="notificacion__tiempo" value="#{noti.fecha}" >
+                                                <f:convertDateTime  dateStyle="short" type="both"  timeStyle="short"/>
+                                            </h:outputText>
+                                            <h:outputText class="notificacion__tiempo_oculto" value="#{noti.fecha}" style="height:0;width: 0;display:block;opacity:0;overflow:hidden;" >
+                                                <f:convertDateTime  dateStyle="short" type="both"  timeStyle="short"/>
+                                            </h:outputText> 
+                                        </div>
+                                        <div class="notificacion__imagen" style="width:29%; background:url('#{request.contextPath}/upload/img/post/#{noti.objPerfil.codPerfil}/all/#{noti.objPublicacion.imagenPub}');background-size:cover;background-position:center;">
+                                            
+                                        </div>
+                                        
+                                        
+                                    </a>
+                                </li>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{noti.objTipoNotificacion.codTipoNotificacion==2}" >
+                                <li class="notificacion__item">
+                                    <a class="notificacion__link" href="#">
+                                        <div style="width: 70%">
+                                            <h:panelGroup  rendered="#{noti.leidoNot==0}"  >
+                                                <span class="notificacion__nueva">Nueva</span>
+                                            </h:panelGroup>
+                                            <span class="notificacion__usuario">#{noti.objPerfilOrigen.nombrePer} #{noti.objPerfilOrigen.apellidosPer} </span>
+                                            <p class="notificacion__texto">Empezó a seguirte</p>
+                                            <h:outputText class="notificacion__tiempo" value="#{noti.fecha}" >
+                                                <f:convertDateTime  dateStyle="short" type="both"  timeStyle="short"/>
+                                            </h:outputText>
+                                            <h:outputText class="notificacion__tiempo_oculto" value="#{noti.fecha}" style="height:0;width: 0;display:block;opacity:0;overflow:hidden;" >
+                                                <f:convertDateTime  dateStyle="short" type="both"  timeStyle="short"/>
+                                            </h:outputText> 
+                                        </div>
+                                        <div class="notificacion__imagen" style="width:29%; background:url('#{request.contextPath}/upload/img/users/#{noti.objPerfilOrigen.imagenPer}');background-size:cover;background-position:center;">
+                                            
+                                        </div>
+                                        
+                                        
+                                    </a>
+                                </li>
+                            </h:panelGroup>
+                            
+                        </ui:repeat>
+                        
+                        <h:panelGroup layout="block" rendered="#{cNotificacion.listaNotif.size()==0}">
+                            <p class="notificacion__vacio">No tienes ninguna notificación</p>
+                        </h:panelGroup>
+                    
+                        </ul>
+                    </h:panelGroup>
                 </div>
                 <div class="perfil" id="perfil" style=" cursor:pointer; background:url('#{request.contextPath}/upload/img/users/#{sessionScope.objUsuario.objPerfil.imagenPer}');background-size:cover;background-position:center;">
                     <div class="opciones" id="opciones__perfil" style="cursor:pointer;">
@@ -199,6 +237,8 @@
         <script type="text/javascript" src="#{request.contextPath}/resources/js/materialize-tags.min.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/imagesloaded.min.js"></script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/masonry.min.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/moment.js"></script>        
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/moment-locale-es.js"></script>   
         <script type="text/javascript" src="#{request.contextPath}/resources/js/usuario.js"></script>        
         <h:outputScript name="jquery/jquery-plugins.js" library="primefaces"/>
     </h:body>

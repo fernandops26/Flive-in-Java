@@ -45,7 +45,7 @@ public class cNotificacion implements Serializable{
     private String canalActual;
     private String codPerfil="";
     
-    private List<Notificacion> listaNotif=new ArrayList<>();;//Lista de notificaciones del usuario actual
+    private List<Notificacion> listaNotif;//Lista de notificaciones del usuario actual
     
     
     
@@ -89,15 +89,18 @@ public class cNotificacion implements Serializable{
     
     
     public void notificacionLike(int codPublicacion){
+        System.out.println("Guardando notificacion..enviando objNotificacion");
         Notificacion obj=new Notificacion();
         obj.getObjPerfilOrigen().setCodPerfil(Integer.parseInt(this.codPerfil));
         obj.getObjPublicacion().setCodPublicacion(codPublicacion);
         new NotificacionLogica().notificacionLike(obj);
         
+        System.out.println("Buscando publicacion por codigo...");
         //Obj publicacion
-        Publicacion objPub=new Publicacion();
+        Publicacion objPub;
         objPub=new PublicacionLogica().buscarPublicacionesPorCodigo(codPublicacion);
         
+        System.out.println("Obteniendo Usuario de session");
         Usuario objU=new SessionLogica().obtenerUsuarioSession();
         
         //Concatenar nombres del dueño de la publicacion
@@ -109,8 +112,24 @@ public class cNotificacion implements Serializable{
         if(Integer.parseInt(this.codPerfil)!=objPub.getObjAlbum().getObjPerfil().getCodPerfil()){
             
             //Enviar notificacion
+            System.out.println("Enviando notificación push");
             this.enviarNotificacion(objPub.getObjAlbum().getObjPerfil().getCodPerfil(),1,nombres ,objPub.getTituloPub(), objPub.getImagenPub());
         }
+        
+    }
+    
+    public void notificacionSeguidor(int codPerfilASeguir){
+        Notificacion obj=new Notificacion();
+        obj.getObjPerfilOrigen().setCodPerfil(Integer.parseInt(this.codPerfil));
+        obj.getObjPerfil().setCodPerfil(codPerfilASeguir);
+        new NotificacionLogica().notificacionSeguidor(obj);
+        
+        
+        Usuario objU=new SessionLogica().obtenerUsuarioSession();
+        //Concatenar nombres del dueño de la publicacion
+        String nombres=objU.getObjPerfil().getNombrePer()+" "+objU.getObjPerfil().getApellidosPer();
+        
+        this.enviarNotificacion(codPerfilASeguir,2,nombres, "", objU.getObjPerfil().getImagenPer());
         
     }
 
@@ -135,7 +154,7 @@ public class cNotificacion implements Serializable{
         this.codPerfil=String.valueOf(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
         System.out.println("PERFIL AL CONSTRUIR:"+this.codPerfil);
         this.objBeanCanales.agregarCanal(this.codPerfil, this.canalActual);
-        
+        this.listaNotif=new ArrayList<>();
         //Carga las notificaiones del usuario actual
         this.cargarNotificaciones();
     }
@@ -158,7 +177,9 @@ public class cNotificacion implements Serializable{
     
     public void cargarNotificaciones(){
         System.out.println("COD PERFIL ACTUAL:"+this.codPerfil);
+        System.out.println("ESTADO DE LISTA: "+this.listaNotif.size());
         this.listaNotif=new NotificacionLogica().listarNotificacionesDePerfil(Integer.parseInt(this.codPerfil));
+         System.out.println("ESTADO DE LISTA DESPUES DE CARGAR: "+this.listaNotif.size());
     }
     
 

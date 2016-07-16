@@ -1,5 +1,5 @@
 prompt PL/SQL Developer import file
-prompt Created on martes, 5 de julio de 2016 by ferna
+prompt Created on viernes, 15 de julio de 2016 by ferna
 set feedback off
 set define off
 prompt Disabling triggers for CATEGORIA...
@@ -215,35 +215,49 @@ commit;
 prompt 26 records loaded
 prompt Loading PERFIL...
 insert into PERFIL (CODPERFIL, NOMBRES, APELLIDOS, IMAGEN, F_CREACION, CODDEPARTAMENTO, DESCRIPCIONPER)
-values (1, 'Jorge Fernando', 'Palacios Sánchez', '1.jpg', to_date('16-05-2016 08:07:55', 'dd-mm-yyyy hh24:mi:ss'), 4, 'Es es una pequeña decripcion de mi !!!');
+values (41, 'Juan', 'Perez', 'none.jpg', to_date('05-07-2016 20:05:13', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into PERFIL (CODPERFIL, NOMBRES, APELLIDOS, IMAGEN, F_CREACION, CODDEPARTAMENTO, DESCRIPCIONPER)
+values (1, 'Jorge Fernando', 'Palacios Sánchez', '1.jpg', to_date('16-05-2016 08:07:55', 'dd-mm-yyyy hh24:mi:ss'), 4, 'Es es una pequeña decripcion de mi !!!bien!!');
 insert into PERFIL (CODPERFIL, NOMBRES, APELLIDOS, IMAGEN, F_CREACION, CODDEPARTAMENTO, DESCRIPCIONPER)
 values (25, 'Dereck', 'Palacios Jimenez', 'none.jpg', to_date('28-06-2016 05:50:05', 'dd-mm-yyyy hh24:mi:ss'), 4, null);
 commit;
-prompt 2 records loaded
+prompt 3 records loaded
 prompt Loading ALBUM...
 insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
 values (28, 'OTRO ALBUM MAS', 'NINUN', to_date('22-06-2016 00:42:20', 'dd-mm-yyyy hh24:mi:ss'), 1, 5, 0);
 insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
+values (62, 'Album principal', 'Este es la pequeña descripcion de mi album', to_date('05-07-2016 20:12:33', 'dd-mm-yyyy hh24:mi:ss'), 41, 12, 1);
+insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
 values (23, 'otro24', 'nuevo', to_date('20-06-2016 16:14:18', 'dd-mm-yyyy hh24:mi:ss'), 1, 17, 1);
+insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
+values (63, 'Fotos de moran', 'Esta s una descripcion del album de moran', to_date('06-07-2016 21:56:15', 'dd-mm-yyyy hh24:mi:ss'), 25, 22, 1);
 insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
 values (15, 'Este es mi album con algun nombre', 'una descripcion c', to_date('20-06-2016 15:50:30', 'dd-mm-yyyy hh24:mi:ss'), 1, 20, 4);
 insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
 values (42, 'Fotografias antiguas', 'Este es un Album para las fotografias antiguas que me impresionan', to_date('28-06-2016 19:50:42', 'dd-mm-yyyy hh24:mi:ss'), 1, 21, 1);
 insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
+values (61, 'Flive', 'Este este es tu primer Album, lo adquiriste cuando te registraste en Flive', to_date('05-07-2016 20:05:13', 'dd-mm-yyyy hh24:mi:ss'), 41, 41, 1);
+insert into ALBUM (CODALBUM, NOMBRE, DESCRIPCION, F_CREACION, CODPERFIL, CODCATEGORIA, NUM_PUBLIC)
 values (41, 'Flive', 'Este este es tu primer Album, lo adquiriste cuando te registraste en Flive', to_date('28-06-2016 05:50:05', 'dd-mm-yyyy hh24:mi:ss'), 25, 41, 2);
 commit;
-prompt 5 records loaded
+prompt 8 records loaded
 prompt Loading PUBLICACION...
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
-values (21, 'Publicacion de prueba ', '1-845502.jpg', to_date('24-06-2016 21:56:57', 'dd-mm-yyyy hh24:mi:ss'), 1, 23, 'silicon valley richart gilfoid gared dinesh backman ');
+values (21, 'Publicacion de prueba ', '1-845502.jpg', to_date('24-06-2016 21:56:57', 'dd-mm-yyyy hh24:mi:ss'), 2, 23, 'silicon valley richart gilfoid gared dinesh backman ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
-values (24, 'ultima', '1-159190.jpg', to_date('26-06-2016 19:01:52', 'dd-mm-yyyy hh24:mi:ss'), 0, 15, 'ultima copa america 2016 ');
+values (24, 'ultima', '1-159190.jpg', to_date('26-06-2016 19:01:52', 'dd-mm-yyyy hh24:mi:ss'), 1, 15, 'ultima copa america 2016 ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
 values (25, 'Publciacion de dereck', '25-971079.png', to_date('28-06-2016 06:59:25', 'dd-mm-yyyy hh24:mi:ss'), 1, 41, 'George Peppa Dereck ');
+insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
+values (42, 'Publicacion 2', '41-723632.jpg', to_date('05-07-2016 20:13:17', 'dd-mm-yyyy hh24:mi:ss'), 0, 62, 'pub tag 3 tag4 ');
+insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
+values (43, 'Publicacion de prueba paita', '25-175959.jpg', to_date('06-07-2016 21:57:19', 'dd-mm-yyyy hh24:mi:ss'), 1, 63, 'paita piura antiguo blanco negro ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
 values (7, 'Esta una nueva publicacion del dia martes', '1-67247.jpg', to_date('21-06-2016 08:04:19', 'dd-mm-yyyy hh24:mi:ss'), 1, 15, 'Estudia voto consciente ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
 values (27, 'Foto antigua', '1-462279.jpg', to_date('28-06-2016 19:55:12', 'dd-mm-yyyy hh24:mi:ss'), 2, 42, 'paita antigua ');
+insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
+values (41, 'publicacion a', '41-871043.jpg', to_date('05-07-2016 20:06:19', 'dd-mm-yyyy hh24:mi:ss'), 1, 61, 'tag1 tag2 ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
 values (6, 'Esta una nueva publicacion ', '1-264583.png', to_date('20-06-2016 22:44:12', 'dd-mm-yyyy hh24:mi:ss'), 0, 15, 'boda album fotos nuevos ');
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
@@ -251,24 +265,32 @@ values (23, 'PPOPO', '1-190228.jpg', to_date('25-06-2016 22:35:13', 'dd-mm-yyyy 
 insert into PUBLICACION (CODPUBLICACION, TITULO, IMAGEN, F_CREACION, N_LIKES, CODALBUM, TAGS)
 values (26, 'letra  "G" amarilla', '25-937.jpg', to_date('28-06-2016 19:32:05', 'dd-mm-yyyy hh24:mi:ss'), 1, 41, 'letra G amarilla ');
 commit;
-prompt 8 records loaded
+prompt 11 records loaded
 prompt Loading GUSTAR...
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
 values (63, 1, 25);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
+values (69, 25, 24);
+insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
+values (128, 1, 43);
+insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
 values (47, 1, 7);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
-values (67, 1, 26);
+values (72, 1, 41);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
-values (68, 25, 27);
+values (73, 25, 21);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
 values (48, 1, 27);
+insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
+values (141, 25, 27);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
 values (32, 1, 23);
 insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
 values (46, 1, 21);
+insert into GUSTAR (CODGUSTAR, CODPERFIL, CODPUBLICACION)
+values (129, 1, 26);
 commit;
-prompt 7 records loaded
+prompt 11 records loaded
 prompt Loading TIPONOTIFICACION...
 insert into TIPONOTIFICACION (CODTIPONOTIFICACION, NOMBRE)
 values (1, 'Like');
@@ -278,31 +300,39 @@ commit;
 prompt 2 records loaded
 prompt Loading NOTIFICACION...
 insert into NOTIFICACION (CODNOTIFICACION, CODPUBLICACION, LEIDO, CODPERFIL, CODPERFIL_ORIGEN, CODTIPONOTIFICACION, FECHA)
-values (1, 26, 0, null, 1, 2, to_date('05-07-2016 19:02:20', 'dd-mm-yyyy hh24:mi:ss'));
+values (67, 43, 0, 25, 1, 1, to_date('14-07-2016 11:23:49', 'dd-mm-yyyy hh24:mi:ss'));
 insert into NOTIFICACION (CODNOTIFICACION, CODPUBLICACION, LEIDO, CODPERFIL, CODPERFIL_ORIGEN, CODTIPONOTIFICACION, FECHA)
-values (2, 26, 0, null, 1, 2, to_date('05-07-2016 19:06:36', 'dd-mm-yyyy hh24:mi:ss'));
+values (79, 27, 0, 1, 25, 1, to_date('14-07-2016 20:47:16', 'dd-mm-yyyy hh24:mi:ss'));
 insert into NOTIFICACION (CODNOTIFICACION, CODPUBLICACION, LEIDO, CODPERFIL, CODPERFIL_ORIGEN, CODTIPONOTIFICACION, FECHA)
-values (3, 27, 0, null, 25, 2, to_date('05-07-2016 19:07:06', 'dd-mm-yyyy hh24:mi:ss'));
+values (83, null, 0, 1, 25, 2, to_date('15-07-2016 17:29:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into NOTIFICACION (CODNOTIFICACION, CODPUBLICACION, LEIDO, CODPERFIL, CODPERFIL_ORIGEN, CODTIPONOTIFICACION, FECHA)
+values (84, null, 0, 25, 1, 2, to_date('15-07-2016 17:34:37', 'dd-mm-yyyy hh24:mi:ss'));
+insert into NOTIFICACION (CODNOTIFICACION, CODPUBLICACION, LEIDO, CODPERFIL, CODPERFIL_ORIGEN, CODTIPONOTIFICACION, FECHA)
+values (68, 26, 0, 25, 1, 1, to_date('14-07-2016 11:43:59', 'dd-mm-yyyy hh24:mi:ss'));
 commit;
-prompt 3 records loaded
+prompt 5 records loaded
 prompt Loading SEGUIDOR...
 insert into SEGUIDOR (CODRELACIONSEGUIDOR, CODPERFIL_SEGUIDO, CODPERFIL_SEGUIDOR)
-values (7, 25, 1);
+values (23, 41, 1);
 insert into SEGUIDOR (CODRELACIONSEGUIDOR, CODPERFIL_SEGUIDO, CODPERFIL_SEGUIDOR)
-values (6, 1, 25);
+values (43, 1, 25);
+insert into SEGUIDOR (CODRELACIONSEGUIDOR, CODPERFIL_SEGUIDO, CODPERFIL_SEGUIDOR)
+values (44, 25, 1);
 commit;
-prompt 2 records loaded
+prompt 3 records loaded
 prompt Loading TAGALBUM...
 prompt Table is empty
 prompt Loading TAGPUBLICACION...
 prompt Table is empty
 prompt Loading USUARIO...
 insert into USUARIO (CODUSUARIO, EMAIL, PASSWORD, CODPERFIL)
+values (41, 'juanp@hotmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 41);
+insert into USUARIO (CODUSUARIO, EMAIL, PASSWORD, CODPERFIL)
 values (1, 'f.499@hotmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 1);
 insert into USUARIO (CODUSUARIO, EMAIL, PASSWORD, CODPERFIL)
 values (25, 'dereck_n@hotmail.com', '84d2004bf28a2095230e8e14993d398d', 25);
 commit;
-prompt 2 records loaded
+prompt 3 records loaded
 prompt Enabling foreign key constraints for PERFIL...
 alter table PERFIL enable constraint FK_CODDEPARTAMENTO;
 prompt Enabling foreign key constraints for ALBUM...

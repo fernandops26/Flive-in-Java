@@ -7,6 +7,7 @@ package com.controlador;
 
 import com.bean.GustarLogica;
 import com.bean.MotorLogica;
+import com.bean.NotificacionLogica;
 import com.bean.PublicacionLogica;
 import com.bean.SessionLogica;
 import com.entidad.Gustar;
@@ -21,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -72,16 +74,21 @@ public class cMotor implements Serializable{
     }
     
     public void toggleLike(int codPublicacion) throws IOException, ParseException, java.text.ParseException{
-//        Mensaje.js("Diste un like a "+codPublicacion);
-//        int pos=this.posicionLike(codPublicacion);
+           FacesContext facesContext = FacesContext.getCurrentInstance();
+        cNotificacion beanNot = (cNotificacion) facesContext.getApplication().
+                getVariableResolver().resolveVariable(facesContext, "cNotificacion");
+    
         if(this.verificarLike(codPublicacion)){
             new GustarLogica().eliminarLikePublicacion(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
             this.actualizarLikes();
+            new NotificacionLogica().eliminarNotificacionLike(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
+            
             Mensaje.js("Dejo de gustarte una publicacion");
            
         }else{
             new GustarLogica().nuevoLikePublicacion(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
             this.actualizarLikes();
+            beanNot.notificacionLike(codPublicacion);
             Mensaje.js("Te gusto una publicación");
         }
     }
@@ -125,14 +132,11 @@ public class cMotor implements Serializable{
         this.consultaPerfil.trim();
             if(this.consultaPerfil.length()>1){
                 this.listaPerfilesEncontrados=new MotorLogica().buscarPerfilesAlTipear(this.consultaPerfil);
-                System.out.println(this.listaPerfilesEncontrados.size());
             }else{
                 this.listaPerfilesEncontrados.clear();
             }
             
        
-//       System.out.println(this.listaPerfilesEncontrados.size());
-//       RequestContext.getCurrentInstance().update("listaPerfilesEncontrados");
     }
             
             

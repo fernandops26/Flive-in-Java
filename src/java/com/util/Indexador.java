@@ -124,9 +124,6 @@ public class Indexador implements Serializable {
                     obj.setCodPublicacion(Integer.parseInt(dc.get("codPublicacion")));
                     obj.setTituloPub(dc.get("titulo"));
                     obj.setImagenPub(dc.get("imagen"));
-                    //Date fecha = new Date(new SimpleDateFormat("yyyy-MM-dd").format(dc.get("f_publicacion")));
-                    
-                    System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(DateTools.stringToDate(dc.get("f_publicacion"))));
                     obj.setF_creacionPub(DateTools.stringToDate(dc.get("f_publicacion")));
                     obj.setN_likesPub(Integer.parseInt(dc.get("n_likes")));
                     obj.setTagsPublicacion(dc.get("tags"));

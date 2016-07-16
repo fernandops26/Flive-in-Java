@@ -45,7 +45,6 @@ public class SessionLogica implements Serializable {
             //Redirecciona a la pagina de inicio de un usuario no autenticado
             contexto.getExternalContext().redirect(contexto.getExternalContext().getApplicationContextPath()+"/");
             
-//            System.out.println(contexto.getExternalContext().getApplicationContextPath());
         } catch (IOException ex) {
             Logger.getLogger(SessionLogica.class.getName()).log(Level.SEVERE, null, ex);
         }

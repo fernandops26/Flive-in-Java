@@ -145,36 +145,12 @@ public class cPublicacion implements Serializable{
    }
    
    
-   //Ver publicacion de un album
-   /**
-     * @param codAlbum Codigo del album 
-    **/
-//    public void verPublicacionesDeAlbum(int codAlbum){
-//        //Evalua si el codigo es mayor a 0, es decir un codigo existente
-//        if(codAlbum>0){
-//            //Asigna todas las publicaciones encontradas al arreglo de publicaciones
-//            this.arrPublicaciones=new PublicacionLogica().buscarPublicacionesDeAlbum(codAlbum);
-//            
-//            //Redirige al usuario a la vista del las publicaciones del album
-//            new SessionLogica().redirigirA("/user/vistaAlbum.xhtml");
-//        } else {
-//        }
-//    }
     
     public void verPublicacionesDeAlbumes(){
         if(this.codAlbumParaPublicaciones!=-1 && this.codPerfilDePerticion!=-1){
-            System.out.println("Cod Album Publicaciones:");
-            System.out.println(this.codAlbumParaPublicaciones);
-            System.out.println("Cod Perfil de peticion:");
-            System.out.println(this.codPerfilDePerticion);
              this.objAlbumActualDetallado=new AlbumLogica().buscarAlbDetPorCodigoAlbum(this.codAlbumParaPublicaciones);
-             System.out.println("Obj Album Actual detallado");
-             System.out.println(this.objAlbumActualDetallado.getNombreAlb());
              this.objPerfilPropietarioAlbumActual=new PerfilLogica().buscarPerfilPorCodigo(this.codPerfilDePerticion);
-             System.out.println("Obj Perfil propietario album actual");
-             System.out.println(this.objPerfilPropietarioAlbumActual.getNombrePer());
              if(this.objAlbumActualDetallado!=null && this.objPerfilPropietarioAlbumActual!=null){
-                System.out.println(this.objAlbumActualDetallado.getNombreAlb());
                 this.arrPublicaciones= new PublicacionLogica().buscarPublicacionesDeAlbum(this.codAlbumParaPublicaciones);
              }else{
                  new SessionLogica().redirigirA("/user/404.xhtml");

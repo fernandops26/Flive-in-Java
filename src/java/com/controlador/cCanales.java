@@ -33,11 +33,7 @@ public class cCanales implements Serializable {
     
     
     public void agregarCanal(String codUsuario,String canal ){
-        System.out.println("Agregando al canal: ");
-        System.out.println("codUsuario:" +codUsuario);
-        System.out.println("Canal: "+canal);
         this.canalesApp.put(codUsuario, canal);
-         System.out.println("Cantidad de canales: "+this.cantidadCanles());
     
     }
     

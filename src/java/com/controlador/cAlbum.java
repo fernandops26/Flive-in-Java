@@ -74,8 +74,6 @@ public class cAlbum implements Serializable {
     public void insertarValorAEliminar(int codAlbum,String nombre){
         this.objAlbumEliminar.setCodAlbum(codAlbum);
         this.objAlbumEliminar.setNombreAlb(nombre);
-        System.out.println(codAlbum);
-        System.out.println(nombre);
     }
     
     public void insertarValorAActualizar(int codAlbum){

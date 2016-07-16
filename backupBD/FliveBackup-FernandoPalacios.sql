@@ -1,6 +1,6 @@
 ----------------------------------------------
 -- Export file for user USER_FLIVE          --
--- Created by ferna on 05/07/2016, 19:24:54 --
+-- Created by ferna on 15/07/2016, 19:52:40 --
 ----------------------------------------------
 
 spool FliveBackup-FernandoPalacios.log
@@ -489,7 +489,7 @@ prompt
 create sequence SEC_ALBUM
 minvalue 1
 maxvalue 9999999999
-start with 61
+start with 81
 increment by 1
 cache 20;
 
@@ -533,7 +533,7 @@ prompt
 create sequence SEC_GUSTAR
 minvalue 1
 maxvalue 9999999999
-start with 81
+start with 161
 increment by 1
 cache 20;
 
@@ -544,7 +544,7 @@ prompt
 create sequence SEC_NOTIFICACION
 minvalue 1
 maxvalue 9999999999
-start with 21
+start with 101
 increment by 1
 cache 20;
 
@@ -555,7 +555,7 @@ prompt
 create sequence SEC_PERFIL
 minvalue 1
 maxvalue 99999
-start with 41
+start with 61
 increment by 1
 cache 20;
 
@@ -577,7 +577,7 @@ prompt
 create sequence SEC_PUBLICACION
 minvalue 1
 maxvalue 9999999999
-start with 41
+start with 61
 increment by 1
 cache 20;
 
@@ -588,7 +588,7 @@ prompt
 create sequence SEC_SEGUIDOR
 minvalue 1
 maxvalue 9999999999
-start with 21
+start with 61
 increment by 1
 cache 20;
 
@@ -632,7 +632,7 @@ prompt
 create sequence SEC_USUARIO
 minvalue 1
 maxvalue 99999
-start with 41
+start with 61
 increment by 1
 cache 20;
 
@@ -704,6 +704,22 @@ end PAQ_GUSTAR;
 /
 
 prompt
+prompt Creating package PAQ_NOTIF
+prompt ==========================
+prompt
+create or replace package PAQ_NOTIF is
+
+TYPE vCursor IS REF CURSOR;
+
+procedure sp_listarNotificacionesPerfil
+  (vCodPerfil IN perfil.codperfil%type,
+  Listado OUT vCursor);
+  
+  
+end PAQ_NOTIF;
+/
+
+prompt
 prompt Creating package PAQ_PERFIL
 prompt ===========================
 prompt
@@ -740,7 +756,7 @@ create or replace package PAQ_PUBLIC is
     Listado OUT vCursor);
     
     
-    procedure sp_buscarPublicPorCodigo(vCodPublicacion OUT publicacion.codpublicacion%type,Listado OUT vCursor);
+    procedure sp_buscarPublicPorCodigo(vCodPublicacion IN publicacion.codpublicacion%type,Listado OUT vCursor);
 end PAQ_PUBLIC;
 /
 
@@ -897,6 +913,37 @@ create or replace procedure sp_eliminarLikePublicacion
 /
 
 prompt
+prompt Creating procedure SP_ELIMINARNOTIFICACIONLIKE
+prompt ==============================================
+prompt
+create or replace procedure sp_eliminarNotificacionLike
+    (vCodPerfilOrigen IN perfil.codperfil%type,
+    vCodPublicacion IN publicacion.codpublicacion%type)
+    is
+    vCodPerfil perfil.codperfil%type;
+    begin
+    select al.codperfil into vCodPerfil from publicacion p inner join album al on (p.codalbum=al.codalbum) where p.codpublicacion=vCodPublicacion;
+     
+     delete notificacion
+      where codperfil_origen=vCodPerfilOrigen and codpublicacion=vCodPublicacion and codperfil=vCodPerfil;
+  end sp_eliminarNotificacionLike;
+/
+
+prompt
+prompt Creating procedure SP_ELIMINARNOTIFSEGUIDOR
+prompt ===========================================
+prompt
+create or replace procedure sp_eliminarNotifSeguidor
+    (vCodPerfilOrigen IN notificacion.codperfil_origen%type,
+    vCodPerfil IN notificacion.codperfil%type)
+    is
+    begin
+     delete notificacion
+      where codperfil_origen=vCodPerfilOrigen and codperfil=vCodPerfil and codtiponotificacion=2;
+  end sp_eliminarNotifSeguidor;
+/
+
+prompt
 prompt Creating procedure SP_NOTIFICACIONLIKE
 prompt ======================================
 prompt
@@ -905,13 +952,16 @@ create or replace procedure sp_notificacionLike
     vCodPublicacion IN publicacion.codpublicacion%type,
     vLeido IN notificacion.leido%type)
     is
-    fecha_hoy Date;
+    fecha_hoy Timestamp;
+    vCodPerfil perfil.codperfil%type;
     begin
-    select SYSDATE into fecha_hoy from dual;
+    select sysdate into fecha_hoy from dual;
+    select al.codperfil into vCodPerfil from publicacion p
+     inner join album al on (p.codalbum=al.codalbum) where p.codpublicacion=vCodPublicacion;
      insert into notificacion
-       ( codpublicacion, leido, codperfil_origen, codtiponotificacion, fecha)
+       ( codpublicacion, leido, codPerfil,codperfil_origen, codtiponotificacion, fecha)
      values
-       ( vCodPublicacion,vLeido, vCodperfilOrigen,2, fecha_hoy);
+       ( vCodPublicacion,vLeido,vCodPerfil, vCodperfilOrigen,1, fecha_hoy);
      
   end sp_notificacionLike;
 /
@@ -1050,6 +1100,7 @@ prompt ===============================
 prompt
 create or replace package body PAQ_ALBUM is
 
+
   procedure sp_buscarAlbumUsuario(
     vCodPerfil IN perfil.codperfil%type,
     Listado OUT vCursor)
@@ -1079,6 +1130,7 @@ create or replace package body PAQ_ALBUM is
        from perfil p inner join album a on (p.codperfil=a.codperfil) inner join categoria c on (a.codcategoria=c.codcategoria) 
        where a.codalbum=vCodAlbum;
       end sp_buscarAlbDetPorCodigoAlbum;
+
 end PAQ_ALBUM;
 /
 
@@ -1127,6 +1179,29 @@ create or replace package body PAQ_GUSTAR is
    
    end sp_buscarLikesPorPerfil;
 end PAQ_GUSTAR;
+/
+
+prompt
+prompt Creating package body PAQ_NOTIF
+prompt ===============================
+prompt
+create or replace package body PAQ_NOTIF is
+
+  procedure sp_listarNotificacionesPerfil(
+    vCodPerfil IN perfil.codperfil%type,
+    Listado OUT vCursor)
+    is 
+    begin
+      OPEN Listado FOR
+select n.codnotificacion,n.codpublicacion,pub.titulo,pub.imagen as imagenpub,n.codperfil_origen,
+p2.nombres as nombres_origen,p2.apellidos as apellidos_origen,p2.imagen as imagen_origen,n.codperfil,p1.nombres,p1.apellidos,
+p1.imagen,n.leido,n.fecha,n.codtiponotificacion
+from notificacion n left join perfil p1 on (n.codperfil=p1.codperfil)
+left join publicacion pub on (n.codpublicacion=pub.codpublicacion)
+inner join perfil p2 on (n.codperfil_origen=p2.codperfil)
+where n.codperfil=vCodPerfil order by fecha desc;
+ end sp_listarNotificacionesPerfil;
+end PAQ_NOTIF;
 /
 
 prompt
@@ -1187,7 +1262,7 @@ create or replace package body PAQ_PUBLIC is
     end sp_buscarTodasPublicaciones;
     
     
-     procedure sp_buscarPublicPorCodigo(vCodPublicacion OUT publicacion.codpublicacion%type,Listado OUT vCursor) is begin
+     procedure sp_buscarPublicPorCodigo(vCodPublicacion IN publicacion.codpublicacion%type,Listado OUT vCursor) is begin
        OPEN Listado FOR 
        select pub.codpublicacion, titulo, imagen, f_creacion, n_likes, al.codalbum, tags, p.codperfil, p.nombres,p.apellidos from publicacion pub
         inner join album al on (pub.codalbum=al.codalbum) inner join perfil p on (p.codperfil=al.codperfil) where codpublicacion=vCodPublicacion;

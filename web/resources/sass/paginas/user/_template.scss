@@ -109,6 +109,8 @@
         &--activo{
             height:auto;
             box-shadow: 0 0 1px 1px rgba(#000,.5);
+            
+            
         }
         &__item{
             
@@ -131,6 +133,14 @@
         position:relative;
         display:flex;
         align-items:center;
+        
+        &__nueva{
+           font-size: .7em;
+           padding:.1em .3em;
+           background:rgba(teal,.8);
+           color:#fff;
+        }
+        
         &__icono{
             cursor:pointer;
             &:hover{
@@ -160,18 +170,28 @@
             border:none;
             top:16px;
             right:-3px;
-            width: 200px;
+            width: 250px;
             max-height: 200px;
-            overflow-y: scroll;
             border-radius: 2px;
             box-shadow: none;
             height:0;
             overflow:hidden;
             transition:all .5s;
+            z-index:100;
             &--activa{
+                overflow-y: scroll;
                 height: auto;
                 box-shadow: 0 0 1px 1px rgba(#000,.1);
                 border:solid 1px rgba(#000,.1);
+                
+                .notificacion__titulo{
+                    position: fixed;
+                    width: 250px;
+                }
+                
+                .notificacion__item:nth-of-type(1){
+                    margin-top: 1.3em;
+                }
                 
             }
         }
@@ -181,14 +201,20 @@
         }
         
         &__link{
-            display:block;
+            display:flex;
             color:rgba(#000,.8);
             padding:.5em;
             box-sizing: border-box;
             line-height:1em;
+            align-items:center;
             &:hover{
                 background-color:rgba(teal,.3);
             }
+        }
+        
+        &__imagen{
+            height: 40px;
+            border:solid 1px;
         }
         
         &__titulo{
@@ -216,6 +242,12 @@
             display:block;
             margin:0;
             font-size: .6em;
+        }
+        
+        &__vacio{
+            padding: .5em;
+            font-size:.9em;
+            font-weight: bold;
         }
     }
     

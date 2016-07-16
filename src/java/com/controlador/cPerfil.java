@@ -59,25 +59,18 @@ public class cPerfil implements Serializable{
         System.out.println("Codigo de peticion");
         System.out.println(this.codPerfilPeticicion);
        if(this.codPerfilPeticicion!=-1){
-           System.out.println("Linea 48");
            this.objPerfilAVer=new PerfilLogica().buscarPerfilPorCodigo(this.codPerfilPeticicion);
-           System.out.println("Linea 50");
            if(this.objPerfilAVer!=null){
-               System.out.println("Linea 52");
                this.objPerfilAVer.setListaAlbumes(new AlbumLogica().BuscarAlbumDetalladoUsuario(this.codPerfilPeticicion));
                this.objPerfilAVer.setListaPublicaciones(new PublicacionLogica().buscarPublicacionesDePerfil(this.codPerfilPeticicion));
                this.objPerfilAVer.setListaSeguidores(new SeguidorLogica().buscarSeguidoresDePerfil(this.codPerfilPeticicion));
                this.objPerfilAVer.setListaPerfilesSiguiendo(new SeguidorLogica().buscarAQuienSigueUnPerfil(this.codPerfilPeticicion));
                this.listaLikesDePerfil=new GustarLogica().buscarLikesPorPerfil(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil());
-               System.out.println("Tamaño list: "+this.objPerfilAVer.getListaPerfilesSiguiendo().size());
-               System.out.println("Tamaño list2: "+this.objPerfilAVer.getListaSeguidores().size());
            }else{
-               System.out.println("Linea 55");
                new SessionLogica().redirigirA("/user/404.xhtml");
            }
            
        }else{
-           System.out.println("Linea 60");
            new SessionLogica().redirigirA("/user/404.xhtml");
        }
     }
@@ -96,9 +89,15 @@ public class cPerfil implements Serializable{
     }
     
     public void nuevoSeguidor(){
+        
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        cNotificacion beanNot = (cNotificacion) facesContext.getApplication().
+                getVariableResolver().resolveVariable(facesContext, "cNotificacion");
+        
         if(new SeguidorLogica().nuevoSeguidor(this.codPerfilPeticicion, new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil())){
             
                this.objPerfilAVer.setListaSeguidores(new SeguidorLogica().buscarSeguidoresDePerfil(this.codPerfilPeticicion));
+               beanNot.notificacionSeguidor(this.codPerfilPeticicion);
             Mensaje.js("Empezaste a seguir a un Fliver");
         }else{
             Mensaje.js("Ocurrio un error");
@@ -108,6 +107,7 @@ public class cPerfil implements Serializable{
     public void eliminarSeguidor(){
         if(new SeguidorLogica().dejarDeSeguir(this.codPerfilPeticicion, new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil())){
             this.objPerfilAVer.setListaPerfilesSiguiendo(new SeguidorLogica().buscarAQuienSigueUnPerfil(this.codPerfilPeticicion));
+            new NotificacionLogica().eliminarNotificacionSeguidor(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPerfilPeticicion);
             Mensaje.js("Dejaste de seguir a un Fliver");
         }else{
             Mensaje.js("Ocurrió un error");
@@ -142,8 +142,6 @@ public class cPerfil implements Serializable{
     
     
     public void toggleLike(int codPublicacion){
-//        Mensaje.js("Diste un like a "+codPublicacion);
-//        int pos=this.posicionLike(codPublicacion);
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         cNotificacion beanNot = (cNotificacion) facesContext.getApplication().
@@ -161,9 +159,9 @@ public class cPerfil implements Serializable{
             new GustarLogica().nuevoLikePublicacion(new SessionLogica().obtenerUsuarioSession().getObjPerfil().getCodPerfil(), codPublicacion);
             
             //Nueva notificacion
-           
-            beanNot.notificacionLike(codPublicacion);
             this.actualizarLikes();
+            beanNot.notificacionLike(codPublicacion);
+            
             Mensaje.js("Te gusto una publicación");
         }
     }

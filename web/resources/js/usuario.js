@@ -92,8 +92,47 @@ $('.modal-trigger').on('click',function(){
 //            $("#inputBusqHidden").val($(this).val());
         }
     });
+    
+    
+    moment.locale("es");
+    setInterval(function(){
+        var notif_tiempo=$('.notificacion__tiempo_oculto');
+        
+        notif_tiempo.each(function(elem){
+            var hora=$(this).text();
+            var horaforma=moment(hora,"DD/MM/YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm:ss");
+            console.log("Hora de texto:" +hora);
+            console.log("Hora de texto formateada: "+horaforma);
+            console.log("Hora actual: "+moment().format("DD/MM/YYYY HH:mm:ss"));
+            var momento=moment(horaforma, "DD/MM/YYYY HH:mm:ss").fromNow();
+            $(this).siblings('.notificacion__tiempo').text(momento);
+//            $(this).text(momento);
+        });
+    },500);
+//    var notif_tiempo=$('.notificacion__tiempo');
+//    notif_tiempo.each(function(elem){
+//        var hora=$(this).text();
+//        var horaforma=moment(hora,"DD/MM/YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm:ss");
+//        console.log("Hora de texto:" +hora);
+//        console.log("Hora de texto formateada: "+horaforma);
+//        console.log("Hora actual: "+moment().format("DD/MM/YYYY HH:mm:ss"));
+//        var momento=moment(horaforma, "DD/MM/YYYY HH:mm:ss").fromNow();
+//        $(this).text(momento);
+//    });
 
 });
+//function formatearFechaNotificacion(){
+//    var notif_tiempo=$('.notificacion__tiempo');
+//    notif_tiempo.each(function(elem){
+//        var hora=$(this).text();
+//        var horaforma=moment(hora,"DD/MM/YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm:ss");
+//        console.log("Hora de texto:" +hora);
+//        console.log("Hora de texto formateada: "+horaforma);
+//        console.log("Hora actual: "+moment().format("DD/MM/YYYY HH:mm:ss"));
+//        var momento=moment(horaforma, "DD/MM/YYYY HH:mm:ss").fromNow();
+//        $(this).text(momento);
+//    });
+//}
 
 function cargarMasonry(){
     setTimeout(function(){
